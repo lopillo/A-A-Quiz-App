@@ -44,8 +44,8 @@
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
     "typescript": "^5.8.3",
-    "@testing-library/react-native": "^14.1.0",
-    "@testing-library/jest-native": "^5.5.0",
+    "@testing-library/react-native": "^12.1.5",
+    "@testing-library/jest-native": "^5.4.3",
     "jest-expo": "^49.0.0"
   },
   "jest": {
