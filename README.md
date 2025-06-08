@@ -39,3 +39,20 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## Resetting the project
+
+Some earlier documentation mentioned an `npm run reset-project` script. This repository does not include that command.
+
+If you need to reinstall dependencies from scratch, remove the `node_modules` folder and run:
+
+```bash
+npm install
+```
+
+After installing dependencies you can start the project with:
+
+```bash
+npx expo start
+```
+
