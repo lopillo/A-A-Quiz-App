@@ -1,6 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Card, Text } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
 import BadgeDisplay, { Badge } from './BadgeDisplay';
 import { RootStackParamList } from '../types/navigation';
 
@@ -27,13 +29,30 @@ export default function ResultScreen({ navigation, route }: Props) {
   const badges = getEarnedBadges();
 
   return (
-    <View>
-      <Text>
-        Your Score: {score} / {totalQuestions}
-      </Text>
-      <BadgeDisplay badges={badges} />
-      <Button title="Go back to Home" onPress={() => navigation.navigate('Home')} />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Card style={styles.card} elevation={2}>
+        <Card.Content>
+          <Text variant="titleMedium">
+            Your Score: {score} / {totalQuestions}
+          </Text>
+          <BadgeDisplay badges={badges} />
+        </Card.Content>
+      </Card>
+      <Button mode="contained" onPress={() => navigation.navigate('Home')}>
+        Go back to Home
+      </Button>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 16,
+  },
+  card: {
+    marginBottom: 16,
+  },
+});
 
