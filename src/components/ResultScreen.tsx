@@ -5,11 +5,14 @@ import { RootStackParamList } from '../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Result'>;
 
-export default function ResultScreen({ navigation }: Props) {
+export default function ResultScreen({ navigation, route }: Props) {
+  const { score, totalQuestions } = route.params;
 
   return (
     <View>
-      <Text>Result Screen</Text>
+      <Text>
+        Your Score: {score} / {totalQuestions}
+      </Text>
       <Button title="Go back to Home" onPress={() => navigation.navigate('Home')} />
     </View>
   );
