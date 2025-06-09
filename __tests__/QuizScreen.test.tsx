@@ -9,7 +9,11 @@ jest.mock('../src/storage/highScore', () => ({
   setHighScore: jest.fn(() => Promise.resolve()),
 }));
 
-jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+jest.spyOn(Alert, 'alert').mockImplementation((title, message, buttons) => {
+  if (buttons && buttons[0] && typeof buttons[0].onPress === 'function') {
+    buttons[0].onPress();
+  }
+});
 
 describe('QuizScreen', () => {
   it('navigates to Result with score after correct answers', async () => {
@@ -22,6 +26,33 @@ describe('QuizScreen', () => {
       fireEvent.press(getByText(q.options[q.correctAnswer]));
     }
 
+    await waitFor(() =>
+      expect(navigate).toHaveBeenCalledWith('Result', {
+        score: questions.length,
+        totalQuestions: questions.length,
+      })
+    );
+  });
+  it('repeats incorrect questions until answered correctly and shows summary', async () => {
+    const navigate = jest.fn();
+    const alertSpy = jest.spyOn(Alert, 'alert');
+    const { getByText } = render(
+      <QuizScreen navigation={{ navigate } as any} route={{ key: '2', name: 'Quiz' } as any} />
+    );
+
+    // Answer first question incorrectly
+    fireEvent.press(getByText(questions[0].options[0]));
+    // Answer remaining questions correctly
+    fireEvent.press(getByText(questions[1].options[questions[1].correctAnswer]));
+    fireEvent.press(getByText(questions[2].options[questions[2].correctAnswer]));
+
+    // Review of question 0 should start
+    // First repeat incorrectly
+    fireEvent.press(getByText(questions[0].options[0]));
+    // Now answer correctly
+    fireEvent.press(getByText(questions[0].options[questions[0].correctAnswer]));
+
+    await waitFor(() => expect(alertSpy).toHaveBeenCalled());
     await waitFor(() =>
       expect(navigate).toHaveBeenCalledWith('Result', {
         score: questions.length,
