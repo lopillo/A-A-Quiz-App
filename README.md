@@ -1,58 +1,33 @@
-# Welcome to your Expo app 👋
+# A&A Quiz App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This project is a simple quiz application built with [Expo](https://expo.dev) and React Native. It showcases a minimal navigation flow with a home screen, quiz questions and a results view that awards badges based on your score. Questions and high score data are stored locally so you can practise even without a network connection.
 
-## Get started
+## Setup
 
-1. Install dependencies
-
+1. **Install dependencies**
    ```bash
    npm install
    ```
-
-2. Start the app
-
+2. **Start the development server**
    ```bash
    npx expo start
    ```
+3. The CLI will offer options to open the app in a development build, simulator/emulator or Expo Go.
 
-In the output, you'll find options to open the app in a
+To run the Jest test suite use:
+```bash
+npm test
+```
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Features
 
-You can start developing by editing the files inside the **src** directory. The project uses React Navigation for routing.
-
+- React Navigation based stack (`HomeScreen`, `QuizScreen`, `ResultScreen`)
+- Tracks a persistent high score using AsyncStorage
+- Review mode for incorrectly answered questions
+- Badge system that rewards bronze, silver or gold depending on the final score
+- Works on Android, iOS and the web via Expo
 
 ## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-
-## Resetting the project
-
-Some earlier documentation mentioned an `npm run reset-project` script. This repository does not include that command.
-
-If you need to reinstall dependencies from scratch, remove the `node_modules` folder and run:
-
-```bash
-npm install
-```
-
-After installing dependencies you can start the project with:
-
-```bash
-npx expo start
-```
+See the [Expo documentation](https://docs.expo.dev/) for more details on building, deploying and extending the app.
 
