@@ -28,6 +28,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       source={require('../../assets/images/icon.png')} // bright background (can be your own)
       style={styles.background}
       resizeMode="cover"
+      accessibilityLabel="Colorful background"
     >
       <SafeAreaView style={styles.safeArea}>
         <Surface style={styles.overlay} elevation={4}>
@@ -35,6 +36,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <Image
             source={require('../../assets/images/adaptive-icon.png')}
             style={styles.logo}
+            accessibilityLabel="Mascot logo"
           />
 
           {/* Colorful header */}
