@@ -5,10 +5,10 @@ import {
   Image,
   ImageBackground,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../types/navigation';
 import { getHighScore } from '../storage/highScore';
 
@@ -29,26 +29,26 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       style={styles.background}
       resizeMode="cover"
     >
-      <View style={styles.overlay}>
-        {/* Cartoon mascot image */}
-        <Image
-          source={require('../../assets/images/adaptive-icon.png')}
-          style={styles.logo}
-        />
+      <SafeAreaView style={styles.safeArea}>
+        <Surface style={styles.overlay} elevation={4}>
+          {/* Cartoon mascot image */}
+          <Image
+            source={require('../../assets/images/adaptive-icon.png')}
+            style={styles.logo}
+          />
 
-        {/* Colorful header */}
-        <Text style={styles.title}>📚 A&A Lern-Mathe-App</Text>
-        <Text style={styles.highScore}>High Score: {highScore}</Text>
+          {/* Colorful header */}
+          <Text variant="headlineMedium" style={styles.title}>
+            📚 A&A Lern-Mathe-App
+          </Text>
+          <Text style={styles.highScore}>High Score: {highScore}</Text>
 
-        {/* Wooden sign-like button */}
-        <TouchableOpacity
-          style={styles.woodButton}
-          activeOpacity={0.85}
-          onPress={() => navigation.navigate('Quiz')}
-        >
-          <Text style={styles.buttonText}>▶️ Starte dein Quiz!</Text>
-        </TouchableOpacity>
-      </View>
+          {/* Start button */}
+          <Button mode="contained" onPress={() => navigation.navigate('Quiz')}>
+            Starte dein Quiz!
+          </Button>
+        </Surface>
+      </SafeAreaView>
     </ImageBackground>
   );
 };
@@ -61,12 +61,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#0066cc',
   },
+  safeArea: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 16,
+  },
   overlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
   },
   logo: {
     width: 180,
@@ -80,27 +86,6 @@ const styles = StyleSheet.create({
     color: '#ff6600',
     marginBottom: 30,
     textAlign: 'center',
-  },
-  woodButton: {
-    backgroundColor: '#5C4033',
-    borderRadius: 12,
-    paddingVertical: 16,
-    paddingHorizontal: 28,
-    borderWidth: 3,
-    borderColor: '#3B2F2F',
-    shadowColor: '#000',
-    shadowOffset: { width: 4, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 5,
-    elevation: 8,
-    transform: [{ rotate: '-1deg' }],
-  },
-  buttonText: {
-    color: '#fff9dc',
-    fontSize: 20,
-    fontWeight: '700',
-    textAlign: 'center',
-    letterSpacing: 1,
   },
   highScore: {
     fontSize: 18,
