@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 import React from 'react';
 import {
   Image,
@@ -9,10 +10,19 @@ import {
   View,
 } from 'react-native';
 import { RootStackParamList } from '../types/navigation';
+import { getHighScore } from '../storage/highScore';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
+  const [highScore, setHighScoreState] = React.useState(0);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getHighScore().then(setHighScoreState);
+    }, [])
+  );
+
   return (
     <ImageBackground
       source={require('../../assets/images/icon.png')} // bright background (can be your own)
@@ -28,6 +38,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
         {/* Colorful header */}
         <Text style={styles.title}>📚 A&A Lern-Mathe-App</Text>
+        <Text style={styles.highScore}>High Score: {highScore}</Text>
 
         {/* Wooden sign-like button */}
         <TouchableOpacity
@@ -90,5 +101,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     letterSpacing: 1,
+  },
+  highScore: {
+    fontSize: 18,
+    marginBottom: 10,
+    color: '#333',
   },
 });

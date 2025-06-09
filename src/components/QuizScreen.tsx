@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { getHighScore, setHighScore } from '../storage/highScore';
 import { RootStackParamList } from '../types/navigation';
 import { questions } from '../data/questions';
 
@@ -10,7 +11,7 @@ const QuizScreen = ({ navigation }: Props) => {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
 
-  const handleAnswer = (index: number) => {
+  const handleAnswer = async (index: number) => {
     const isCorrect = index === questions[current].correctAnswer;
     const newScore = isCorrect ? score + 1 : score;
     setScore(newScore);
@@ -19,7 +20,14 @@ const QuizScreen = ({ navigation }: Props) => {
     if (next < questions.length) {
       setCurrent(next);
     } else {
-      navigation.navigate('Result', { score: newScore, totalQuestions: questions.length });
+      const highScore = await getHighScore();
+      if (newScore > highScore) {
+        await setHighScore(newScore);
+      }
+      navigation.navigate('Result', {
+        score: newScore,
+        totalQuestions: questions.length,
+      });
     }
   };
 
