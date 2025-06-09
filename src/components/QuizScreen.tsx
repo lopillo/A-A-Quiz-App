@@ -1,6 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { Alert, Button, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Card, Text } from 'react-native-paper';
 import { getHighScore, setHighScore } from '../storage/highScore';
 import { RootStackParamList } from '../types/navigation';
 import { questions } from '../data/questions';
@@ -101,12 +103,25 @@ const QuizScreen = ({ navigation }: Props) => {
   const question = questions[questionIndexToShow];
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.question}>{question.text}</Text>
+    <SafeAreaView style={styles.container}>
+      <Card style={styles.card} elevation={2}>
+        <Card.Content>
+          <Text variant="titleLarge" style={styles.question}>
+            {question.text}
+          </Text>
+        </Card.Content>
+      </Card>
       {question.options.map((option, index) => (
-        <Button key={index} title={option} onPress={() => handleAnswer(index)} />
+        <Button
+          key={index}
+          mode="contained"
+          style={styles.option}
+          onPress={() => handleAnswer(index)}
+        >
+          {option}
+        </Button>
       ))}
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -116,10 +131,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 16,
   },
+  card: {
+    marginBottom: 12,
+  },
   question: {
     fontSize: 20,
     marginBottom: 12,
     textAlign: 'center',
+  },
+  option: {
+    marginVertical: 4,
   },
 });
 
