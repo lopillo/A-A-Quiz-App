@@ -31,3 +31,7 @@ npm test
 
 See the [Expo documentation](https://docs.expo.dev/) for more details on building, deploying and extending the app.
 
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
