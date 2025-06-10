@@ -1,0 +1,18 @@
+{
+  "title": "📚 App de Matemáticas A&A",
+  "highScore": "Puntuación máxima: {{count}}",
+  "startQuiz": "¡Comienza tu cuestionario!",
+  "correctedQuestions": "Preguntas corregidas",
+  "none": "Ninguna",
+  "continue": "Continuar",
+  "yourScore": "Tu puntuación: {{score}} / {{total}}",
+  "goHome": "Volver al inicio",
+  "badgesEarned": "Insignias obtenidas:",
+  "addition": "Adición",
+  "subtraction": "Sustracción",
+  "multiplication": "Multiplicación",
+  "division": "División",
+  "colorfulBackground": "Fondo colorido",
+  "mascotLogo": "Logotipo mascota",
+  "language": "Idioma"
+}

@@ -3,6 +3,8 @@ import { render } from '@testing-library/react-native';
 import ResultScreen from '../src/components/ResultScreen';
 import { questions } from '../src/data/questions';
 import type { OperationCount } from '../src/types/score';
+import { LanguageProvider } from '../src/i18n/LanguageContext';
+import { setLocale } from '../src/i18n';
 
 const TOTALS: OperationCount = questions.reduce<OperationCount>(
   (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
@@ -13,13 +15,16 @@ const PERFECT: OperationCount = { ...TOTALS };
 
 const renderScreen = (scores: OperationCount, totals: OperationCount = TOTALS) =>
   render(
-    <ResultScreen
-      navigation={{ navigate: jest.fn() } as any}
-      route={{ key: 'result', name: 'Result', params: { scores, totals } } as any }
-    />
+    <LanguageProvider>
+      <ResultScreen
+        navigation={{ navigate: jest.fn() } as any}
+        route={{ key: 'result', name: 'Result', params: { scores, totals } } as any }
+      />
+    </LanguageProvider>
   );
 
 describe('ResultScreen badges', () => {
+  beforeEach(() => setLocale('en'));
   it('awards gold badge for perfect score', () => {
     const { getByText } = renderScreen(PERFECT, TOTALS);
     expect(getByText('Gold Badge (Addition)')).toBeTruthy();

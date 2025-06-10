@@ -8,14 +8,18 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Surface, Text } from 'react-native-paper';
+import { Button, Surface, Text, Menu } from 'react-native-paper';
 import { RootStackParamList } from '../types/navigation';
 import { getHighScore } from '../storage/highScore';
 import type { OperationCount } from '../types/score';
+import { t } from '../i18n';
+import { useLanguage, availableLanguages } from '../i18n/LanguageContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
+  const { language, setLanguage } = useLanguage();
+  const [menuVisible, setMenuVisible] = React.useState(false);
   const [highScore, setHighScoreState] = React.useState<OperationCount>({
     add: 0,
     subtract: 0,
@@ -34,7 +38,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       source={require('../../assets/images/icon.png')} // bright background (can be your own)
       style={styles.background}
       resizeMode="cover"
-      accessibilityLabel="Colorful background"
+      accessibilityLabel={t('colorfulBackground')}
     >
       <SafeAreaView style={styles.safeArea}>
         <Surface style={styles.overlay} elevation={4}>
@@ -42,21 +46,44 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <Image
             source={require('../../assets/images/adaptive-icon.png')}
             style={styles.logo}
-            accessibilityLabel="Mascot logo"
+            accessibilityLabel={t('mascotLogo')}
           />
 
           {/* Colorful header */}
           <Text variant="headlineMedium" style={styles.title}>
-            📚 A&A Lern-Mathe-App
+            {t('title')}
           </Text>
           <Text style={styles.highScore}>
-            High Score: {Object.values(highScore).reduce((a, b) => a + b, 0)}
+            {t('highScore', { count: Object.values(highScore).reduce((a, b) => a + b, 0) })}
           </Text>
 
           {/* Start button */}
           <Button mode="contained" onPress={() => navigation.navigate('Quiz')}>
-            Starte dein Quiz!
+            {t('startQuiz')}
           </Button>
+
+          <View style={styles.langMenu}>
+            <Menu
+              visible={menuVisible}
+              onDismiss={() => setMenuVisible(false)}
+              anchor={
+                <Button mode="outlined" onPress={() => setMenuVisible(true)}>
+                  {t('language')}: {language.toUpperCase()}
+                </Button>
+              }
+            >
+              {availableLanguages.map((lang) => (
+                <Menu.Item
+                  key={lang}
+                  onPress={() => {
+                    setLanguage(lang);
+                    setMenuVisible(false);
+                  }}
+                  title={lang.toUpperCase()}
+                />
+              ))}
+            </Menu>
+          </View>
         </Surface>
       </SafeAreaView>
     </ImageBackground>
@@ -101,5 +128,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 10,
     color: '#333',
+  },
+  langMenu: {
+    marginTop: 16,
   },
 });

@@ -28,6 +28,17 @@ npm test
 - Review mode for incorrectly answered questions
 - Badge system that rewards bronze, silver or gold depending on the final score
 - Works on Android, iOS and the web via Expo
+- Multi-language UI with runtime language selection
+
+## Adding translations
+
+Translation files live in `src/i18n`. Each file is named after its language code
+(for example `en.json` or `es.json`). To add a new language:
+
+1. Copy `src/i18n/en.json` to a new file like `fr.json`.
+2. Translate each value while keeping the same keys.
+3. Import the file and add it to the dictionary in `src/i18n/index.ts`.
+4. The new language will automatically appear in the menu on the home screen.
 
 ## Learn more
 

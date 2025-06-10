@@ -4,6 +4,8 @@ import QuizScreen from '../src/components/QuizScreen';
 import { questions } from '../src/data/questions';
 import type { OperationCount } from '../src/types/score';
 import { Alert } from 'react-native';
+import { LanguageProvider } from '../src/i18n/LanguageContext';
+import { setLocale } from '../src/i18n';
 
 const TOTALS: OperationCount = questions.reduce<OperationCount>(
   (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
@@ -26,8 +28,11 @@ jest.spyOn(Alert, 'alert').mockImplementation((title, message, buttons) => {
 describe('QuizScreen', () => {
   it('navigates to Result with score after correct answers', async () => {
     const navigate = jest.fn();
+    setLocale('en');
     const { getByText } = render(
-      <QuizScreen navigation={{ navigate } as any} route={{ key: '1', name: 'Quiz' } as any} />
+      <LanguageProvider>
+        <QuizScreen navigation={{ navigate } as any} route={{ key: '1', name: 'Quiz' } as any} />
+      </LanguageProvider>
     );
 
     for (const q of questions) {
@@ -44,8 +49,11 @@ describe('QuizScreen', () => {
   it('repeats incorrect questions until answered correctly and shows summary', async () => {
     const navigate = jest.fn();
     const alertSpy = jest.spyOn(Alert, 'alert');
+    setLocale('en');
     const { getByText } = render(
-      <QuizScreen navigation={{ navigate } as any} route={{ key: '2', name: 'Quiz' } as any} />
+      <LanguageProvider>
+        <QuizScreen navigation={{ navigate } as any} route={{ key: '2', name: 'Quiz' } as any} />
+      </LanguageProvider>
     );
 
     // Answer first question incorrectly
