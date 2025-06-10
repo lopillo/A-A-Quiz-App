@@ -3,7 +3,9 @@ import { render, fireEvent } from '@testing-library/react-native';
 import HomeScreen from '../src/components/HomeScreen';
 
 jest.mock('../src/storage/highScore', () => ({
-  getHighScore: jest.fn(() => Promise.resolve(0)),
+  getHighScore: jest.fn(() =>
+    Promise.resolve({ add: 0, subtract: 0, multiply: 0, divide: 0 })
+  ),
 }));
 
 jest.mock('@react-navigation/native', () => {

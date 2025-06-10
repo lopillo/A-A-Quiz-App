@@ -5,6 +5,8 @@ export type MathQuestion = {
   operation: 'add' | 'subtract' | 'multiply' | 'divide';
 };
 
+export type Operation = MathQuestion['operation'];
+
 export const questions: MathQuestion[] = [
   {
     text: 'What is 1 + 1?',
