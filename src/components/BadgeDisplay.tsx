@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
   badges: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    // Using margin on each badge instead of the experimental `gap` property
+    // for consistent cross-platform spacing.
     justifyContent: 'center',
   },
   badge: {
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
+    margin: 4,
   },
   badgeText: {
     color: '#000',
