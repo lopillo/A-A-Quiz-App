@@ -1,34 +1,61 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
 import { getHighScore, setHighScore } from '../storage/highScore';
 import { RootStackParamList } from '../types/navigation';
 import { questions } from '../data/questions';
+import type { OperationCount, Operation } from '../types/score';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Quiz'>;
 
 const QuizScreen = ({ navigation }: Props) => {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
+  const [scoreByOp, setScoreByOp] = useState<OperationCount>({
+    add: 0,
+    subtract: 0,
+    multiply: 0,
+    divide: 0,
+  });
   const [wrongQuestions, setWrongQuestions] = useState<number[]>([]);
   const [reviewQueue, setReviewQueue] = useState<number[]>([]);
   const [correctedQuestions, setCorrectedQuestions] = useState<number[]>([]);
   const [reviewMode, setReviewMode] = useState(false);
 
-  const finishQuiz = async (finalScore: number) => {
+  const totals: OperationCount = useMemo(
+    () =>
+      questions.reduce<OperationCount>(
+        (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
+        { add: 0, subtract: 0, multiply: 0, divide: 0 }
+      ),
+    []
+  );
+
+  const finishQuiz = async (finalScores: OperationCount) => {
     const highScore = await getHighScore();
-    if (finalScore > highScore) {
-      await setHighScore(finalScore);
+    const updated: OperationCount = { ...highScore };
+    let changed = false;
+    (Object.keys(finalScores) as Operation[]).forEach((op) => {
+      if (finalScores[op] > highScore[op]) {
+        updated[op] = finalScores[op];
+        changed = true;
+      }
+    });
+    if (changed) {
+      await setHighScore(updated);
     }
     navigation.navigate('Result', {
-      score: finalScore,
-      totalQuestions: questions.length,
+      scores: finalScores,
+      totals,
     });
   };
 
-  const showSummaryAndFinish = async (finalScore: number, corrected: number[]) => {
+  const showSummaryAndFinish = async (
+    finalScores: OperationCount,
+    corrected: number[]
+  ) => {
     const summaryText = corrected
       .map((i) => `- ${questions[i].text}`)
       .join('\n');
@@ -40,16 +67,19 @@ const QuizScreen = ({ navigation }: Props) => {
         },
       ]);
     });
-    finishQuiz(finalScore);
+    finishQuiz(finalScores);
   };
 
   const handleAnswer = async (index: number) => {
     const questionIndex = reviewMode ? reviewQueue[current] : current;
     const isCorrect = index === questions[questionIndex].correctAnswer;
+    const op: Operation = questions[questionIndex].operation;
 
     if (isCorrect) {
       const newScore = score + 1;
       setScore(newScore);
+      const updatedByOp = { ...scoreByOp, [op]: scoreByOp[op] + 1 };
+      setScoreByOp(updatedByOp);
 
       if (reviewMode) {
         const newQueue = [...reviewQueue];
@@ -58,7 +88,10 @@ const QuizScreen = ({ navigation }: Props) => {
         setCorrectedQuestions((prev) => [...prev, questionIndex]);
 
         if (newQueue.length === 0) {
-          await showSummaryAndFinish(newScore, [...correctedQuestions, questionIndex]);
+          await showSummaryAndFinish(updatedByOp, [
+            ...correctedQuestions,
+            questionIndex,
+          ]);
           return;
         } else if (current >= newQueue.length) {
           setCurrent(0);
@@ -72,7 +105,7 @@ const QuizScreen = ({ navigation }: Props) => {
           setReviewQueue(wrongQuestions);
           setCurrent(0);
         } else {
-          await finishQuiz(newScore);
+          await finishQuiz(updatedByOp);
         }
       }
     } else {

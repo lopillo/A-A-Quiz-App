@@ -2,7 +2,7 @@ export type RootStackParamList = {
   Home: undefined;
   Quiz: undefined;
   Result: {
-    score: number;
-    totalQuestions: number;
+    scores: import('./score').OperationCount;
+    totals: import('./score').OperationCount;
   };
 };

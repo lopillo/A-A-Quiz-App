@@ -11,11 +11,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../types/navigation';
 import { getHighScore } from '../storage/highScore';
+import type { OperationCount } from '../types/score';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
-  const [highScore, setHighScoreState] = React.useState(0);
+  const [highScore, setHighScoreState] = React.useState<OperationCount>({
+    add: 0,
+    subtract: 0,
+    multiply: 0,
+    divide: 0,
+  });
 
   useFocusEffect(
     React.useCallback(() => {
@@ -43,7 +49,9 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <Text variant="headlineMedium" style={styles.title}>
             📚 A&A Lern-Mathe-App
           </Text>
-          <Text style={styles.highScore}>High Score: {highScore}</Text>
+          <Text style={styles.highScore}>
+            High Score: {Object.values(highScore).reduce((a, b) => a + b, 0)}
+          </Text>
 
           {/* Start button */}
           <Button mode="contained" onPress={() => navigation.navigate('Quiz')}>

@@ -2,10 +2,18 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import QuizScreen from '../src/components/QuizScreen';
 import { questions } from '../src/data/questions';
+import type { OperationCount } from '../src/types/score';
 import { Alert } from 'react-native';
 
+const TOTALS: OperationCount = questions.reduce<OperationCount>(
+  (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
+  { add: 0, subtract: 0, multiply: 0, divide: 0 }
+);
+
 jest.mock('../src/storage/highScore', () => ({
-  getHighScore: jest.fn(() => Promise.resolve(0)),
+  getHighScore: jest.fn(() =>
+    Promise.resolve({ add: 0, subtract: 0, multiply: 0, divide: 0 })
+  ),
   setHighScore: jest.fn(() => Promise.resolve()),
 }));
 
@@ -28,8 +36,8 @@ describe('QuizScreen', () => {
 
     await waitFor(() =>
       expect(navigate).toHaveBeenCalledWith('Result', {
-        score: questions.length,
-        totalQuestions: questions.length,
+        scores: { add: 2, subtract: 2, multiply: 2, divide: 2 },
+        totals: TOTALS,
       })
     );
   });
@@ -56,8 +64,8 @@ describe('QuizScreen', () => {
     await waitFor(() => expect(alertSpy).toHaveBeenCalled());
     await waitFor(() =>
       expect(navigate).toHaveBeenCalledWith('Result', {
-        score: questions.length,
-        totalQuestions: questions.length,
+        scores: { add: 2, subtract: 2, multiply: 2, divide: 2 },
+        totals: TOTALS,
       })
     );
   });
