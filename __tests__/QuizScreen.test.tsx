@@ -43,8 +43,9 @@ describe('QuizScreen', () => {
     // Answer first question incorrectly
     fireEvent.press(getByText(questions[0].options[0]));
     // Answer remaining questions correctly
-    fireEvent.press(getByText(questions[1].options[questions[1].correctAnswer]));
-    fireEvent.press(getByText(questions[2].options[questions[2].correctAnswer]));
+    for (let i = 1; i < questions.length; i++) {
+      fireEvent.press(getByText(questions[i].options[questions[i].correctAnswer]));
+    }
 
     // Review of question 0 should start
     // First repeat incorrectly

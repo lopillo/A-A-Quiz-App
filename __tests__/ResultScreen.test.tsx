@@ -1,8 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import ResultScreen from '../src/components/ResultScreen';
+import { questions } from '../src/data/questions';
 
-const renderScreen = (score: number, total: number = 5) =>
+const TOTAL = questions.length;
+
+const renderScreen = (score: number, total: number = TOTAL) =>
   render(
     <ResultScreen
       navigation={{ navigate: jest.fn() } as any}
@@ -12,22 +15,25 @@ const renderScreen = (score: number, total: number = 5) =>
 
 describe('ResultScreen badges', () => {
   it('awards gold badge for perfect score', () => {
-    const { getByText } = renderScreen(5, 5);
+    const { getByText } = renderScreen(TOTAL, TOTAL);
     expect(getByText('Gold Badge')).toBeTruthy();
   });
 
   it('awards silver badge for >=80% score', () => {
-    const { getByText } = renderScreen(4, 5);
+    const silverScore = Math.ceil(TOTAL * 0.8);
+    const { getByText } = renderScreen(silverScore, TOTAL);
     expect(getByText('Silver Badge')).toBeTruthy();
   });
 
   it('awards bronze badge for >=50% score', () => {
-    const { getByText } = renderScreen(3, 5);
+    const bronzeScore = Math.ceil(TOTAL * 0.5);
+    const { getByText } = renderScreen(bronzeScore, TOTAL);
     expect(getByText('Bronze Badge')).toBeTruthy();
   });
 
   it('awards no badge below 50%', () => {
-    const { queryByText } = renderScreen(2, 5);
+    const belowBronze = Math.floor(TOTAL * 0.5) - 1;
+    const { queryByText } = renderScreen(belowBronze, TOTAL);
     expect(queryByText('Badges Earned:')).toBeNull();
   });
 });
