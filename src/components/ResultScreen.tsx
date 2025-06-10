@@ -6,17 +6,20 @@ import { StyleSheet } from 'react-native';
 import BadgeDisplay, { Badge } from './BadgeDisplay';
 import { RootStackParamList } from '../types/navigation';
 import type { Operation, OperationCount } from '../types/score';
+import { t } from '../i18n';
+import { useLanguage } from '../i18n/LanguageContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Result'>;
 
 export default function ResultScreen({ navigation, route }: Props) {
   const { scores, totals } = route.params;
+  useLanguage();
 
   const operationNames: Record<Operation, string> = {
-    add: 'Addition',
-    subtract: 'Subtraction',
-    multiply: 'Multiplication',
-    divide: 'Division',
+    add: t('addition'),
+    subtract: t('subtraction'),
+    multiply: t('multiplication'),
+    divide: t('division'),
   };
 
   const getEarnedBadges = (): Badge[] => {
@@ -52,14 +55,16 @@ export default function ResultScreen({ navigation, route }: Props) {
       <Card style={styles.card} elevation={2}>
         <Card.Content>
           <Text variant="titleMedium">
-            Your Score: {Object.values(scores).reduce((a, b) => a + b, 0)} /{' '}
-            {Object.values(totals).reduce((a, b) => a + b, 0)}
+            {t('yourScore', {
+              score: Object.values(scores).reduce((a, b) => a + b, 0),
+              total: Object.values(totals).reduce((a, b) => a + b, 0),
+            })}
           </Text>
           <BadgeDisplay badges={badges} />
         </Card.Content>
       </Card>
       <Button mode="contained" onPress={() => navigation.navigate('Home')}>
-        Go back to Home
+        {t('goHome')}
       </Button>
     </SafeAreaView>
   );

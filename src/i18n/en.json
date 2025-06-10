@@ -1,0 +1,18 @@
+{
+  "title": "📚 A&A Math Learning App",
+  "highScore": "High Score: {{count}}",
+  "startQuiz": "Start Quiz",
+  "correctedQuestions": "Corrected Questions",
+  "none": "None",
+  "continue": "Continue",
+  "yourScore": "Your Score: {{score}} / {{total}}",
+  "goHome": "Go back to Home",
+  "badgesEarned": "Badges Earned:",
+  "addition": "Addition",
+  "subtraction": "Subtraction",
+  "multiplication": "Multiplication",
+  "division": "Division",
+  "colorfulBackground": "Colorful background",
+  "mascotLogo": "Mascot logo",
+  "language": "Language"
+}

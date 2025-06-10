@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { t } from '../i18n';
 
 export type Badge = {
   id: string;
@@ -17,7 +18,7 @@ const BadgeDisplay: React.FC<Props> = ({ badges }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Badges Earned:</Text>
+      <Text style={styles.heading}>{t('badgesEarned')}</Text>
       <View style={styles.badges}>
         {badges.map((badge) => (
           <View key={badge.id} style={styles.badge}>

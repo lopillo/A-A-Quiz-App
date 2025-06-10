@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import HomeScreen from '../src/components/HomeScreen';
+import { LanguageProvider } from '../src/i18n/LanguageContext';
+import { setLocale, t } from '../src/i18n';
 
 jest.mock('../src/storage/highScore', () => ({
   getHighScore: jest.fn(() =>
@@ -19,11 +21,14 @@ jest.mock('@react-navigation/native', () => {
 describe('HomeScreen', () => {
   it('navigates to Quiz on button press', () => {
     const navigate = jest.fn();
+    setLocale('en');
     const { getByText } = render(
-      <HomeScreen navigation={{ navigate } as any} route={{ key: '0', name: 'Home' } as any} />
+      <LanguageProvider>
+        <HomeScreen navigation={{ navigate } as any} route={{ key: '0', name: 'Home' } as any} />
+      </LanguageProvider>
     );
 
-    fireEvent.press(getByText('Starte dein Quiz!'));
+    fireEvent.press(getByText(t('startQuiz')));
     expect(navigate).toHaveBeenCalledWith('Quiz');
   });
 });

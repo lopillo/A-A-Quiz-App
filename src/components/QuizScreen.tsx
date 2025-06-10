@@ -7,6 +7,7 @@ import { getHighScore, setHighScore } from '../storage/highScore';
 import { RootStackParamList } from '../types/navigation';
 import { questions } from '../data/questions';
 import type { OperationCount, Operation } from '../types/score';
+import { t } from '../i18n';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Quiz'>;
 
@@ -60,9 +61,9 @@ const QuizScreen = ({ navigation }: Props) => {
       .map((i) => `- ${questions[i].text}`)
       .join('\n');
     await new Promise<void>((resolve) => {
-      Alert.alert('Corrected Questions', summaryText || 'None', [
+      Alert.alert(t('correctedQuestions'), summaryText || t('none'), [
         {
-          text: 'Continue',
+          text: t('continue'),
           onPress: () => resolve(),
         },
       ]);
