@@ -13,7 +13,8 @@ import { RootStackParamList } from '../types/navigation';
 import { getHighScore } from '../storage/highScore';
 import type { OperationCount } from '../types/score';
 import { t } from '../i18n';
-import { useLanguage, availableLanguages } from '../i18n/LanguageContext';
+import { useLanguage } from '../i18n/LanguageContext';
+import { availableLanguages } from '../i18n';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
