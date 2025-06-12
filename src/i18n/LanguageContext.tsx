@@ -7,7 +7,8 @@ export type LanguageContextValue = {
   setLanguage: (lang: string) => void;
 };
 
-const defaultLang = Localization.locale.split('-')[0];
+// `Localization.locale` may be undefined in certain environments (e.g. tests)
+const defaultLang = Localization.locale?.split('-')[0] ?? 'en';
 
 const LanguageContext = createContext<LanguageContextValue>({
   language: defaultLang,
