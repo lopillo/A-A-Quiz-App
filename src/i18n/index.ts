@@ -11,7 +11,10 @@ const dictionaries: Dictionaries = {
   es,
 };
 
-let locale = Localization.locale.split('-')[0];
+// If `Localization.locale` is undefined (for example during tests), default to English.
+const defaultLocale = Localization.locale?.split('-')[0] ?? 'en';
+
+let locale = defaultLocale;
 
 export const setLocale = (lang: string) => {
   locale = lang;
