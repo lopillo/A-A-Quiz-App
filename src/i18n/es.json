@@ -14,5 +14,15 @@
   "division": "División",
   "colorfulBackground": "Fondo colorido",
   "mascotLogo": "Logotipo mascota",
-  "language": "Idioma"
+  "language": "Idioma",
+  "q1": "¿Cuánto es 1 + 1?",
+  "q2": "¿Cuánto es 3 + 4?",
+  "q3": "¿Cuánto es 5 - 2?",
+  "q4": "¿Cuánto es 9 - 4?",
+  "q5": "¿Cuánto es 3 × 3?",
+  "q6": "¿Cuánto es 4 × 5?",
+  "q7": "¿Cuánto es 8 ÷ 2?",
+  "q8": "¿Cuánto es 10 ÷ 5?"
+  "operation_all": "Todas",
 }
+

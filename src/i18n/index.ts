@@ -1,6 +1,7 @@
 import * as Localization from 'expo-localization';
 import en from './en.json';
 import es from './es.json';
+import de from './de.json';
 
 export type TranslationKey = keyof typeof en;
 
@@ -9,6 +10,7 @@ type Dictionaries = Record<string, Record<TranslationKey, string>>;
 const dictionaries: Dictionaries = {
   en,
   es,
+  de,
 };
 
 // If `Localization.locale` is undefined (for example during tests), default to English.
