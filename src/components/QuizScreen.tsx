@@ -11,7 +11,12 @@ import { t } from '../i18n';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Quiz'>;
 
-const QuizScreen = ({ navigation }: Props) => {
+const QuizScreen = ({ navigation, route }: Props) => {
+  const selectedOp = route.params?.operation ?? 'all';
+  const activeQuestions =
+    selectedOp === 'all'
+      ? questions
+      : questions.filter((q) => q.operation === selectedOp);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [scoreByOp, setScoreByOp] = useState<OperationCount>({
@@ -27,7 +32,7 @@ const QuizScreen = ({ navigation }: Props) => {
 
   const totals: OperationCount = useMemo(
     () =>
-      questions.reduce<OperationCount>(
+      activeQuestions.reduce<OperationCount>(
         (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
         { add: 0, subtract: 0, multiply: 0, divide: 0 }
       ),
@@ -58,7 +63,7 @@ const QuizScreen = ({ navigation }: Props) => {
     corrected: number[]
   ) => {
     const summaryText = corrected
-      .map((i) => `- ${questions[i].text}`)
+      .map((i) => `- ${t(activeQuestions[i].textKey as any)}`)
       .join('\n');
     await new Promise<void>((resolve) => {
       Alert.alert(t('correctedQuestions'), summaryText || t('none'), [
@@ -73,8 +78,8 @@ const QuizScreen = ({ navigation }: Props) => {
 
   const handleAnswer = async (index: number) => {
     const questionIndex = reviewMode ? reviewQueue[current] : current;
-    const isCorrect = index === questions[questionIndex].correctAnswer;
-    const op: Operation = questions[questionIndex].operation;
+    const isCorrect = index === activeQuestions[questionIndex].correctAnswer;
+    const op: Operation = activeQuestions[questionIndex].operation;
 
     if (isCorrect) {
       const newScore = score + 1;
@@ -99,7 +104,7 @@ const QuizScreen = ({ navigation }: Props) => {
         }
       } else {
         const next = current + 1;
-        if (next < questions.length) {
+        if (next < activeQuestions.length) {
           setCurrent(next);
         } else if (wrongQuestions.length > 0) {
           setReviewMode(true);
@@ -122,7 +127,7 @@ const QuizScreen = ({ navigation }: Props) => {
         const newWrong = [...wrongQuestions, questionIndex];
         setWrongQuestions(newWrong);
 
-        if (next < questions.length) {
+        if (next < activeQuestions.length) {
           setCurrent(next);
         } else {
           setReviewMode(true);
@@ -134,14 +139,14 @@ const QuizScreen = ({ navigation }: Props) => {
   };
 
   const questionIndexToShow = reviewMode ? reviewQueue[current] : current;
-  const question = questions[questionIndexToShow];
+  const question = activeQuestions[questionIndexToShow];
 
   return (
     <SafeAreaView style={styles.container}>
       <Card style={styles.card} elevation={2}>
         <Card.Content>
           <Text variant="titleLarge" style={styles.question}>
-            {question.text}
+            {t(question.textKey as any)}
           </Text>
         </Card.Content>
       </Card>

@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Surface, Text, Menu } from 'react-native-paper';
 import { RootStackParamList } from '../types/navigation';
 import { getHighScore } from '../storage/highScore';
-import type { OperationCount } from '../types/score';
+import type { OperationCount, Operation } from '../types/score';
 import { t } from '../i18n';
 import { useLanguage } from '../i18n/LanguageContext';
 import { availableLanguages } from '../i18n';
@@ -21,6 +21,8 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { language, setLanguage } = useLanguage();
   const [menuVisible, setMenuVisible] = React.useState(false);
+  const [opMenuVisible, setOpMenuVisible] = React.useState(false);
+  const [operation, setOperation] = React.useState<'all' | Operation>('all');
   const [highScore, setHighScoreState] = React.useState<OperationCount>({
     add: 0,
     subtract: 0,
@@ -59,9 +61,62 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           </Text>
 
           {/* Start button */}
-          <Button mode="contained" onPress={() => navigation.navigate('Quiz')}>
+          <Button
+            mode="contained"
+            onPress={() => navigation.navigate('Quiz', { operation })}
+          >
             {t('startQuiz')}
           </Button>
+
+          <View style={styles.langMenu}>
+            <Menu
+              visible={opMenuVisible}
+              onDismiss={() => setOpMenuVisible(false)}
+              anchor={
+                <Button mode="outlined" onPress={() => setOpMenuVisible(true)}>
+                  {operation === 'all'
+                    ? t('operation_all')
+                    : t(
+                        operation === 'add'
+                          ? 'addition'
+                          : operation === 'subtract'
+                          ? 'subtraction'
+                          : operation === 'multiply'
+                          ? 'multiplication'
+                          : 'division'
+                      )}
+                </Button>
+              }
+            >
+              <Menu.Item
+                onPress={() => {
+                  setOperation('all');
+                  setOpMenuVisible(false);
+                }}
+                title={t('operation_all')}
+              />
+              {(['add', 'subtract', 'multiply', 'divide'] as Operation[]).map(
+                (op) => (
+                  <Menu.Item
+                    key={op}
+                    onPress={() => {
+                      setOperation(op);
+                      setOpMenuVisible(false);
+                    }}
+                    title={t(
+                      op === 'add'
+                        ? 'addition'
+                        : op === 'subtract'
+                        ? 'subtraction'
+                        : op === 'multiply'
+                        ? 'multiplication'
+                        : 'division'
+                    )}
+                  />
+                )
+              )}
+            </Menu>
+          </View>
 
           <View style={styles.langMenu}>
             <Menu

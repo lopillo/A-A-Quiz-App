@@ -14,5 +14,15 @@
   "division": "Division",
   "colorfulBackground": "Colorful background",
   "mascotLogo": "Mascot logo",
-  "language": "Language"
+  "language": "Language",
+  "q1": "What is 1 + 1?",
+  "q2": "What is 3 + 4?",
+  "q3": "What is 5 - 2?",
+  "q4": "What is 9 - 4?",
+  "q5": "What is 3 × 3?",
+  "q6": "What is 4 × 5?",
+  "q7": "What is 8 ÷ 2?",
+  "operation_all": "All",
+  "q8": "What is 10 ÷ 5?"
 }
+
