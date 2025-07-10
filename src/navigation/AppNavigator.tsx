@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
 import HomeScreen from '../components/HomeScreen';
+import SecondaryScreen from '../components/SecondaryScreen';
 import QuizScreen from '../components/QuizScreen';
 import ResultScreen from '../components/ResultScreen';
 
@@ -15,6 +16,7 @@ export default function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Secondary" component={SecondaryScreen} />
         <Stack.Screen name="Quiz" component={QuizScreen} />
         <Stack.Screen name="Result" component={ResultScreen} />
       </Stack.Navigator>

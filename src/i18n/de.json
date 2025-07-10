@@ -24,5 +24,7 @@
   "q7": "Was ist 8 ÷ 2?",
   "q8": "Was ist 10 ÷ 5?",
   "operation_all": "Alle"
+  ,"selectOperation": "Operation wählen",
+  "highScores": "Bestleistungen"
 }
 
