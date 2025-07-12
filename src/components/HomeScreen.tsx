@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#0066cc',
+    backgroundColor: '#f2f2f2',
   },
   safeArea: {
     flex: 1,
@@ -125,14 +125,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: '#ff6600',
+    color: '#1a1a1a',
     marginBottom: 30,
     textAlign: 'center',
   },
   highScore: {
     fontSize: 18,
     marginBottom: 10,
-    color: '#333',
+    color: '#555',
   },
   langMenu: {
     marginTop: 16,

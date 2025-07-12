@@ -5,10 +5,10 @@ export const paperTheme = {
   ...MD3LightTheme,
   colors: {
     ...MD3LightTheme.colors,
-    primary: '#0066cc',
-    secondary: '#ff6600',
-    background: Colors.light.background,
+    primary: '#1a1a1a',
+    secondary: '#5db075',
+    background: '#f2f2f2',
     surface: '#ffffff',
-    onSurface: Colors.light.text,
+    onSurface: '#222222',
   },
 };
