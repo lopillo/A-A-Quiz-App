@@ -15,10 +15,10 @@ const TOTALS: OperationCount = questions.reduce<OperationCount>(
 jest.mock('../src/storage/highScore', () => ({
   getHighScore: jest.fn(() =>
     Promise.resolve({
-      add: { score: 0, playerName: '', date: '' },
-      subtract: { score: 0, playerName: '', date: '' },
-      multiply: { score: 0, playerName: '', date: '' },
-      divide: { score: 0, playerName: '', date: '' },
+      add: { score: 0, playerName: '', date: '', badge: null },
+      subtract: { score: 0, playerName: '', date: '', badge: null },
+      multiply: { score: 0, playerName: '', date: '', badge: null },
+      divide: { score: 0, playerName: '', date: '', badge: null },
     })
   ),
   setHighScore: jest.fn(() => Promise.resolve()),

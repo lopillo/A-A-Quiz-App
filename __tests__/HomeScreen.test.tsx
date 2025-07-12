@@ -7,10 +7,10 @@ import { setLocale, t } from '../src/i18n';
 jest.mock('../src/storage/highScore', () => ({
   getHighScore: jest.fn(() =>
     Promise.resolve({
-      add: { score: 0, playerName: '', date: '' },
-      subtract: { score: 0, playerName: '', date: '' },
-      multiply: { score: 0, playerName: '', date: '' },
-      divide: { score: 0, playerName: '', date: '' },
+      add: { score: 0, playerName: '', date: '', badge: null },
+      subtract: { score: 0, playerName: '', date: '', badge: null },
+      multiply: { score: 0, playerName: '', date: '', badge: null },
+      divide: { score: 0, playerName: '', date: '', badge: null },
     })
   ),
 }));

@@ -6,7 +6,7 @@ import { Button, Card, Text } from 'react-native-paper';
 import { getHighScore, setHighScore } from '../storage/highScore';
 import { RootStackParamList } from '../types/navigation';
 import { generateQuestions } from '../data/questions';
-import type { OperationCount, Operation, OperationRecordMap } from '../types/score';
+import type { OperationCount, Operation, OperationRecordMap, BadgeLevel } from '../types/score';
 import { t, type TranslationKey } from '../i18n';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Quiz'>;
@@ -46,10 +46,17 @@ const QuizScreen = ({ navigation, route }: Props) => {
     let changed = false;
     (Object.keys(finalScores) as Operation[]).forEach((op) => {
       if (finalScores[op] > highScore[op].score) {
+        const total = finalTotals[op];
+        const pct = total ? finalScores[op] / total : 0;
+        let badge: BadgeLevel = null;
+        if (pct === 1) badge = 'gold';
+        else if (pct >= 0.8) badge = 'silver';
+        else if (pct >= 0.5) badge = 'bronze';
         updated[op] = {
           score: finalScores[op],
           playerName,
           date: new Date().toISOString(),
+          badge,
         };
         changed = true;
       }
