@@ -3,7 +3,6 @@ import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import QuizScreen from '../src/components/QuizScreen';
 import { generateQuestions } from '../src/data/questions';
 import type { OperationCount } from '../src/types/score';
-import { Alert } from 'react-native';
 import { LanguageProvider } from '../src/i18n/LanguageContext';
 import { setLocale } from '../src/i18n';
 
@@ -20,11 +19,6 @@ jest.mock('../src/storage/highScore', () => ({
   setHighScore: jest.fn(() => Promise.resolve()),
 }));
 
-jest.spyOn(Alert, 'alert').mockImplementation((title, message, buttons) => {
-  if (buttons && buttons[0] && typeof buttons[0].onPress === 'function') {
-    buttons[0].onPress();
-  }
-});
 
 describe('QuizScreen', () => {
   it('navigates to Result with score after correct answers', async () => {
@@ -47,9 +41,8 @@ describe('QuizScreen', () => {
       })
     );
   });
-  it('repeats incorrect questions until answered correctly and shows summary', async () => {
+  it('ends the quiz when a cycle contains mistakes', async () => {
     const navigate = jest.fn();
-    const alertSpy = jest.spyOn(Alert, 'alert');
     setLocale('en');
     const { getByText } = render(
       <LanguageProvider>
@@ -57,24 +50,22 @@ describe('QuizScreen', () => {
       </LanguageProvider>
     );
 
-    // Answer first question incorrectly
+    const cycleTotals: OperationCount = questions.slice(0, 10).reduce<OperationCount>(
+      (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
+      { add: 0, subtract: 0, multiply: 0, divide: 0 }
+    );
+    const cycleScores: OperationCount = { ...cycleTotals };
+    cycleScores[questions[0].operation] -= 1;
+
     fireEvent.press(getByText(questions[0].options[0]));
-    // Answer remaining questions correctly
-    for (let i = 1; i < questions.length; i++) {
+    for (let i = 1; i < 10; i++) {
       fireEvent.press(getByText(questions[i].options[questions[i].correctAnswer]));
     }
 
-    // Review of question 0 should start
-    // First repeat incorrectly
-    fireEvent.press(getByText(questions[0].options[0]));
-    // Now answer correctly
-    fireEvent.press(getByText(questions[0].options[questions[0].correctAnswer]));
-
-    await waitFor(() => expect(alertSpy).toHaveBeenCalled());
     await waitFor(() =>
       expect(navigate).toHaveBeenCalledWith('Result', {
-        scores: TOTALS,
-        totals: TOTALS,
+        scores: cycleScores,
+        totals: cycleTotals,
       })
     );
   });
