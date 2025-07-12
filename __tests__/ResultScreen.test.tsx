@@ -1,11 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import ResultScreen from '../src/components/ResultScreen';
-import { questions } from '../src/data/questions';
+import { generateQuestions } from '../src/data/questions';
 import type { OperationCount } from '../src/types/score';
 import { LanguageProvider } from '../src/i18n/LanguageContext';
 import { setLocale } from '../src/i18n';
 
+const questions = generateQuestions();
 const TOTALS: OperationCount = questions.reduce<OperationCount>(
   (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
   { add: 0, subtract: 0, multiply: 0, divide: 0 }

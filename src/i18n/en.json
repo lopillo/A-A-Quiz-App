@@ -24,6 +24,10 @@
   "q7": "What is 8 ÷ 2?",
   "operation_all": "All",
   "q8": "What is 10 ÷ 5?",
+  "addQuestion": "What is {{a}} + {{b}}?",
+  "subtractQuestion": "What is {{a}} - {{b}}?",
+  "multiplyQuestion": "What is {{a}} × {{b}}?",
+  "divideQuestion": "What is {{a}} ÷ {{b}}?",
   "selectOperation": "Select Operation",
   "viewRecords": "View Records",
   "highScores": "High Scores"
