@@ -6,13 +6,14 @@ import { Button, Card, Text } from 'react-native-paper';
 import { getHighScore, setHighScore } from '../storage/highScore';
 import { RootStackParamList } from '../types/navigation';
 import { generateQuestions } from '../data/questions';
-import type { OperationCount, Operation } from '../types/score';
+import type { OperationCount, Operation, OperationRecordMap } from '../types/score';
 import { t, type TranslationKey } from '../i18n';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Quiz'>;
 
 const QuizScreen = ({ navigation, route }: Props) => {
   const allQuestions = useMemo(() => generateQuestions(), []);
+  const { playerName } = route.params;
   const selectedOp = route.params?.operation ?? 'all';
   const activeQuestions =
     selectedOp === 'all'
@@ -41,11 +42,15 @@ const QuizScreen = ({ navigation, route }: Props) => {
 
   const finishQuiz = async (finalScores: OperationCount, finalTotals: OperationCount) => {
     const highScore = await getHighScore();
-    const updated: OperationCount = { ...highScore };
+    const updated: OperationRecordMap = { ...highScore };
     let changed = false;
     (Object.keys(finalScores) as Operation[]).forEach((op) => {
-      if (finalScores[op] > highScore[op]) {
-        updated[op] = finalScores[op];
+      if (finalScores[op] > highScore[op].score) {
+        updated[op] = {
+          score: finalScores[op],
+          playerName,
+          date: new Date().toISOString(),
+        };
         changed = true;
       }
     });

@@ -6,7 +6,12 @@ import { setLocale, t } from '../src/i18n';
 
 jest.mock('../src/storage/highScore', () => ({
   getHighScore: jest.fn(() =>
-    Promise.resolve({ add: 0, subtract: 0, multiply: 0, divide: 0 })
+    Promise.resolve({
+      add: { score: 0, playerName: '', date: '' },
+      subtract: { score: 0, playerName: '', date: '' },
+      multiply: { score: 0, playerName: '', date: '' },
+      divide: { score: 0, playerName: '', date: '' },
+    })
   ),
 }));
 
@@ -28,7 +33,8 @@ describe('HomeScreen', () => {
       </LanguageProvider>
     );
 
+    fireEvent.changeText(getByText(t('enterName')), 'Alice');
     fireEvent.press(getByText(t('startQuiz')));
-    expect(navigate).toHaveBeenCalledWith('Selection');
+    expect(navigate).toHaveBeenCalledWith('Selection', { playerName: 'Alice' });
   });
 });

@@ -6,7 +6,7 @@ import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../types/navigation';
 import { getHighScore } from '../storage/highScore';
 import { t } from '../i18n';
-import type { OperationCount } from '../types/score';
+import type { OperationRecordMap } from '../types/score';
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 16 },
@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
 type Props = NativeStackScreenProps<RootStackParamList, 'HighScore'>;
 
 const HighScoreScreen: React.FC<Props> = ({ navigation }) => {
-  const [scores, setScores] = useState<OperationCount>({
-    add: 0,
-    subtract: 0,
-    multiply: 0,
-    divide: 0,
+  const [scores, setScores] = useState<OperationRecordMap>({
+    add: { score: 0, playerName: '', date: '' },
+    subtract: { score: 0, playerName: '', date: '' },
+    multiply: { score: 0, playerName: '', date: '' },
+    divide: { score: 0, playerName: '', date: '' },
   });
 
   useEffect(() => {
@@ -32,10 +32,18 @@ const HighScoreScreen: React.FC<Props> = ({ navigation }) => {
       <Card style={styles.card} elevation={2}>
         <Card.Content>
           <Text variant="titleLarge">{t('highScores')}</Text>
-          <Text>{t('addition')}: {scores.add}</Text>
-          <Text>{t('subtraction')}: {scores.subtract}</Text>
-          <Text>{t('multiplication')}: {scores.multiply}</Text>
-          <Text>{t('division')}: {scores.divide}</Text>
+          <Text>
+            {t('addition')}: {scores.add.score} ({scores.add.playerName} {scores.add.date})
+          </Text>
+          <Text>
+            {t('subtraction')}: {scores.subtract.score} ({scores.subtract.playerName} {scores.subtract.date})
+          </Text>
+          <Text>
+            {t('multiplication')}: {scores.multiply.score} ({scores.multiply.playerName} {scores.multiply.date})
+          </Text>
+          <Text>
+            {t('division')}: {scores.divide.score} ({scores.divide.playerName} {scores.divide.date})
+          </Text>
         </Card.Content>
       </Card>
       <Button mode="contained" onPress={() => navigation.goBack()}>

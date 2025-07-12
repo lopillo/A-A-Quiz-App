@@ -14,7 +14,12 @@ const TOTALS: OperationCount = questions.reduce<OperationCount>(
 
 jest.mock('../src/storage/highScore', () => ({
   getHighScore: jest.fn(() =>
-    Promise.resolve({ add: 0, subtract: 0, multiply: 0, divide: 0 })
+    Promise.resolve({
+      add: { score: 0, playerName: '', date: '' },
+      subtract: { score: 0, playerName: '', date: '' },
+      multiply: { score: 0, playerName: '', date: '' },
+      divide: { score: 0, playerName: '', date: '' },
+    })
   ),
   setHighScore: jest.fn(() => Promise.resolve()),
 }));
@@ -26,7 +31,7 @@ describe('QuizScreen', () => {
     setLocale('en');
     const { getByText } = render(
       <LanguageProvider>
-        <QuizScreen navigation={{ navigate } as any} route={{ key: '1', name: 'Quiz' } as any} />
+        <QuizScreen navigation={{ navigate } as any} route={{ key: '1', name: 'Quiz', params: { playerName: 'Bob' } } as any} />
       </LanguageProvider>
     );
 
@@ -40,13 +45,19 @@ describe('QuizScreen', () => {
         totals: TOTALS,
       })
     );
+    const { setHighScore } = require('../src/storage/highScore');
+    expect(setHighScore).toHaveBeenCalledWith(
+      expect.objectContaining({
+        add: expect.objectContaining({ playerName: 'Bob' }),
+      })
+    );
   });
   it('ends the quiz when a cycle contains mistakes', async () => {
     const navigate = jest.fn();
     setLocale('en');
     const { getByText } = render(
       <LanguageProvider>
-        <QuizScreen navigation={{ navigate } as any} route={{ key: '2', name: 'Quiz' } as any} />
+        <QuizScreen navigation={{ navigate } as any} route={{ key: '2', name: 'Quiz', params: { playerName: 'Bob' } } as any} />
       </LanguageProvider>
     );
 
