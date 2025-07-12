@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Text } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { RootStackParamList } from '../types/navigation';
 import { t } from '../i18n';
 
@@ -43,7 +44,14 @@ const SelectionScreen: React.FC<Props> = ({ navigation }) => (
     >
       {t('division')}
     </Button>
-    <Button mode="outlined" style={styles.button} onPress={() => navigation.navigate('HighScore')}>
+    <Button
+      mode="outlined"
+      style={styles.button}
+      onPress={() => navigation.navigate('HighScore')}
+      icon={({ size, color }) => (
+        <MaterialCommunityIcons name="trophy" size={size} color={color} />
+      )}
+    >
       {t('viewRecords')}
     </Button>
   </SafeAreaView>
