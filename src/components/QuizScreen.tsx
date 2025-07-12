@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState, useMemo } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
 import { getHighScore, setHighScore } from '../storage/highScore';
@@ -18,7 +18,11 @@ const QuizScreen = ({ navigation, route }: Props) => {
     selectedOp === 'all'
       ? allQuestions
       : allQuestions.filter((q) => q.operation === selectedOp);
-  const [current, setCurrent] = useState(0);
+  const QUESTIONS_PER_CYCLE = 10;
+  const totalCycles = Math.ceil(activeQuestions.length / QUESTIONS_PER_CYCLE);
+
+  const [cycle, setCycle] = useState(0);
+  const [current, setCurrent] = useState(0); // question index within cycle
   const [score, setScore] = useState(0);
   const [scoreByOp, setScoreByOp] = useState<OperationCount>({
     add: 0,
@@ -26,22 +30,16 @@ const QuizScreen = ({ navigation, route }: Props) => {
     multiply: 0,
     divide: 0,
   });
-  const [wrongQuestions, setWrongQuestions] = useState<number[]>([]);
-  const [reviewQueue, setReviewQueue] = useState<number[]>([]);
-  const [correctedQuestions, setCorrectedQuestions] = useState<number[]>([]);
-  const [reviewMode, setReviewMode] = useState(false);
+  const [totals, setTotals] = useState<OperationCount>({
+    add: 0,
+    subtract: 0,
+    multiply: 0,
+    divide: 0,
+  });
+  const [mistakes, setMistakes] = useState(0);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
 
-  const totals: OperationCount = useMemo(
-    () =>
-      activeQuestions.reduce<OperationCount>(
-        (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
-        { add: 0, subtract: 0, multiply: 0, divide: 0 }
-      ),
-    []
-  );
-
-  const finishQuiz = async (finalScores: OperationCount) => {
+  const finishQuiz = async (finalScores: OperationCount, finalTotals: OperationCount) => {
     const highScore = await getHighScore();
     const updated: OperationCount = { ...highScore };
     let changed = false;
@@ -56,100 +54,53 @@ const QuizScreen = ({ navigation, route }: Props) => {
     }
     navigation.navigate('Result', {
       scores: finalScores,
-      totals,
+      totals: finalTotals,
     });
   };
-
-  const showSummaryAndFinish = async (
-    finalScores: OperationCount,
-    corrected: number[]
-  ) => {
-    const summaryText = corrected
-      .map(
-        (i) =>
-          `- ${t(activeQuestions[i].textKey as TranslationKey, {
-            a: activeQuestions[i].a,
-            b: activeQuestions[i].b,
-          })}`
-      )
-      .join('\n');
-    await new Promise<void>((resolve) => {
-      Alert.alert(t('correctedQuestions'), summaryText || t('none'), [
-        {
-          text: t('continue'),
-          onPress: () => resolve(),
-        },
-      ]);
-    });
-    finishQuiz(finalScores);
-  };
-
   const handleAnswer = async (index: number) => {
-    const questionIndex = reviewMode ? reviewQueue[current] : current;
-    const isCorrect = index === activeQuestions[questionIndex].correctAnswer;
-    const op: Operation = activeQuestions[questionIndex].operation;
+    const questionIndex = cycle * QUESTIONS_PER_CYCLE + current;
+    const question = activeQuestions[questionIndex];
+    const isCorrect = index === question.correctAnswer;
+    const op: Operation = question.operation;
 
     setFeedback(isCorrect ? 'correct' : 'wrong');
     setTimeout(() => setFeedback(null), 800);
 
+    setTotals((prev) => ({ ...prev, [op]: prev[op] + 1 }));
+
     if (isCorrect) {
-      const newScore = score + 1;
-      setScore(newScore);
-      const updatedByOp = { ...scoreByOp, [op]: scoreByOp[op] + 1 };
-      setScoreByOp(updatedByOp);
-
-      if (reviewMode) {
-        const newQueue = [...reviewQueue];
-        newQueue.splice(current, 1);
-        setReviewQueue(newQueue);
-        setCorrectedQuestions((prev) => [...prev, questionIndex]);
-
-        if (newQueue.length === 0) {
-          await showSummaryAndFinish(updatedByOp, [
-            ...correctedQuestions,
-            questionIndex,
-          ]);
-          return;
-        } else if (current >= newQueue.length) {
-          setCurrent(0);
-        }
-      } else {
-        const next = current + 1;
-        if (next < activeQuestions.length) {
-          setCurrent(next);
-        } else if (wrongQuestions.length > 0) {
-          setReviewMode(true);
-          setReviewQueue(wrongQuestions);
-          setCurrent(0);
-        } else {
-          await finishQuiz(updatedByOp);
-        }
-      }
+      setScore((s) => s + 1);
+      setScoreByOp((prev) => ({ ...prev, [op]: prev[op] + 1 }));
     } else {
-      if (reviewMode) {
-        const q = reviewQueue[current];
-        const newQueue = [...reviewQueue.slice(0, current), ...reviewQueue.slice(current + 1), q];
-        setReviewQueue(newQueue);
-        if (current >= newQueue.length) {
-          setCurrent(0);
-        }
-      } else {
-        const next = current + 1;
-        const newWrong = [...wrongQuestions, questionIndex];
-        setWrongQuestions(newWrong);
+      setMistakes((m) => m + 1);
+    }
 
-        if (next < activeQuestions.length) {
-          setCurrent(next);
-        } else {
-          setReviewMode(true);
-          setReviewQueue(newWrong);
-          setCurrent(0);
-        }
-      }
+    const next = current + 1;
+    if (next < QUESTIONS_PER_CYCLE && questionIndex + 1 < activeQuestions.length) {
+      setCurrent(next);
+      return;
+    }
+
+    // Cycle finished
+    if (mistakes + (isCorrect ? 0 : 1) > 0) {
+      await finishQuiz(
+        isCorrect ? { ...scoreByOp, [op]: scoreByOp[op] + 1 } : scoreByOp,
+        { ...totals, [op]: totals[op] + 1 }
+      );
+    } else if (cycle + 1 < totalCycles) {
+      // next cycle
+      setCycle(cycle + 1);
+      setCurrent(0);
+      setMistakes(0);
+    } else {
+      await finishQuiz(
+        isCorrect ? { ...scoreByOp, [op]: scoreByOp[op] + 1 } : scoreByOp,
+        { ...totals, [op]: totals[op] + 1 }
+      );
     }
   };
 
-  const questionIndexToShow = reviewMode ? reviewQueue[current] : current;
+  const questionIndexToShow = cycle * QUESTIONS_PER_CYCLE + current;
   const question = activeQuestions[questionIndexToShow];
 
   return (
