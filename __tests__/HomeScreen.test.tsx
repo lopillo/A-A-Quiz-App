@@ -24,17 +24,18 @@ jest.mock('@react-navigation/native', () => {
 });
 
 describe('HomeScreen', () => {
-  it('navigates to Selection on button press', () => {
+  it('navigates to Selection after entering name in dialog', () => {
     const navigate = jest.fn();
     setLocale('en');
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <LanguageProvider>
         <HomeScreen navigation={{ navigate } as any} route={{ key: '0', name: 'Home' } as any} />
       </LanguageProvider>
     );
 
-    fireEvent.changeText(getByText(t('enterName')), 'Alice');
     fireEvent.press(getByText(t('startQuiz')));
+    fireEvent.changeText(getByTestId('playerNameInput'), 'Alice');
+    fireEvent.press(getByText(t('continue')));
     expect(navigate).toHaveBeenCalledWith('Selection', { playerName: 'Alice' });
   });
 });

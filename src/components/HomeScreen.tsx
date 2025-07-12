@@ -7,7 +7,15 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Surface, Text, Menu, TextInput } from 'react-native-paper';
+import {
+  Button,
+  Surface,
+  Text,
+  Menu,
+  TextInput,
+  Dialog,
+  Portal,
+} from 'react-native-paper';
 import { RootStackParamList } from '../types/navigation';
 import { t } from '../i18n';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -19,6 +27,16 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { language, setLanguage } = useLanguage();
   const [menuVisible, setMenuVisible] = React.useState(false);
   const [playerName, setPlayerName] = React.useState('');
+  const [dialogVisible, setDialogVisible] = React.useState(false);
+
+  const handleStartPress = () => setDialogVisible(true);
+
+  const handleSubmitName = () => {
+    if (playerName.trim()) {
+      setDialogVisible(false);
+      navigation.navigate('Selection', { playerName });
+    }
+  };
 
   return (
     <ImageBackground
@@ -41,21 +59,30 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             {t('title')}
           </Text>
 
-          <TextInput
-            label={t('enterName')}
-            value={playerName}
-            onChangeText={setPlayerName}
-            style={styles.input}
-          />
-
           {/* Start button */}
-          <Button
-            mode="contained"
-            onPress={() => navigation.navigate('Selection', { playerName })}
-            disabled={!playerName.trim()}
-          >
+          <Button mode="contained" onPress={handleStartPress}>
             {t('startQuiz')}
           </Button>
+
+          <Portal>
+            <Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
+              <Dialog.Title>{t('enterName')}</Dialog.Title>
+              <Dialog.Content>
+                <TextInput
+                  label={t('enterName')}
+                  value={playerName}
+                  onChangeText={setPlayerName}
+                  style={styles.input}
+                  testID="playerNameInput"
+                />
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button onPress={handleSubmitName} disabled={!playerName.trim()}>
+                  {t('continue')}
+                </Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
 
 
           <View style={styles.langMenu}>
