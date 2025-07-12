@@ -1,6 +1,5 @@
 {
   "title": "📚 A&A Math Learning App",
-  "highScore": "High Score: {{count}}",
   "startQuiz": "Start Quiz",
   "correctedQuestions": "Corrected Questions",
   "none": "None",
