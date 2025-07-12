@@ -30,6 +30,7 @@
   "divideQuestion": "What is {{a}} ÷ {{b}}?",
   "selectOperation": "Select Operation",
   "viewRecords": "View Records",
-  "highScores": "High Scores"
+  "highScores": "High Scores",
+  "enterName": "Enter your name"
 }
 

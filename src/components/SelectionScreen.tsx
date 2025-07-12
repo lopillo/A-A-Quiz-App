@@ -15,46 +15,52 @@ const styles = StyleSheet.create({
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Selection'>;
 
-const SelectionScreen: React.FC<Props> = ({ navigation }) => (
-  <SafeAreaView style={styles.container}>
-    <Text variant="titleLarge" style={styles.title}>
-      {t('selectOperation')}
-    </Text>
-    <Button mode="contained" onPress={() => navigation.navigate('Quiz', { operation: 'add' })}>
-      {t('addition')}
-    </Button>
-    <Button
-      mode="contained"
-      style={styles.button}
-      onPress={() => navigation.navigate('Quiz', { operation: 'subtract' })}
-    >
-      {t('subtraction')}
-    </Button>
-    <Button
-      mode="contained"
-      style={styles.button}
-      onPress={() => navigation.navigate('Quiz', { operation: 'multiply' })}
-    >
-      {t('multiplication')}
-    </Button>
-    <Button
-      mode="contained"
-      style={styles.button}
-      onPress={() => navigation.navigate('Quiz', { operation: 'divide' })}
-    >
-      {t('division')}
-    </Button>
-    <Button
-      mode="outlined"
-      style={styles.button}
-      onPress={() => navigation.navigate('HighScore')}
-      icon={({ size, color }) => (
-        <MaterialCommunityIcons name="trophy" size={size} color={color} />
-      )}
-    >
-      {t('viewRecords')}
-    </Button>
-  </SafeAreaView>
-);
+const SelectionScreen: React.FC<Props> = ({ navigation, route }) => {
+  const { playerName } = route.params;
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text variant="titleLarge" style={styles.title}>
+        {t('selectOperation')}
+      </Text>
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('Quiz', { operation: 'add', playerName })}
+      >
+        {t('addition')}
+      </Button>
+      <Button
+        mode="contained"
+        style={styles.button}
+        onPress={() => navigation.navigate('Quiz', { operation: 'subtract', playerName })}
+      >
+        {t('subtraction')}
+      </Button>
+      <Button
+        mode="contained"
+        style={styles.button}
+        onPress={() => navigation.navigate('Quiz', { operation: 'multiply', playerName })}
+      >
+        {t('multiplication')}
+      </Button>
+      <Button
+        mode="contained"
+        style={styles.button}
+        onPress={() => navigation.navigate('Quiz', { operation: 'divide', playerName })}
+      >
+        {t('division')}
+      </Button>
+      <Button
+        mode="outlined"
+        style={styles.button}
+        onPress={() => navigation.navigate('HighScore')}
+        icon={({ size, color }) => (
+          <MaterialCommunityIcons name="trophy" size={size} color={color} />
+        )}
+      >
+        {t('viewRecords')}
+      </Button>
+    </SafeAreaView>
+  );
+};
 
 export default SelectionScreen;
