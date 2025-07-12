@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState, useMemo } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
 import { getHighScore, setHighScore } from '../storage/highScore';
@@ -29,6 +29,7 @@ const QuizScreen = ({ navigation, route }: Props) => {
   const [reviewQueue, setReviewQueue] = useState<number[]>([]);
   const [correctedQuestions, setCorrectedQuestions] = useState<number[]>([]);
   const [reviewMode, setReviewMode] = useState(false);
+  const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
 
   const totals: OperationCount = useMemo(
     () =>
@@ -80,6 +81,9 @@ const QuizScreen = ({ navigation, route }: Props) => {
     const questionIndex = reviewMode ? reviewQueue[current] : current;
     const isCorrect = index === activeQuestions[questionIndex].correctAnswer;
     const op: Operation = activeQuestions[questionIndex].operation;
+
+    setFeedback(isCorrect ? 'correct' : 'wrong');
+    setTimeout(() => setFeedback(null), 800);
 
     if (isCorrect) {
       const newScore = score + 1;
@@ -143,6 +147,17 @@ const QuizScreen = ({ navigation, route }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {feedback && (
+        <View
+          style={[
+            styles.feedbackContainer,
+            feedback === 'correct' ? styles.correct : styles.wrong,
+          ]}
+          pointerEvents="none"
+        >
+          <Text style={styles.feedbackText}>{feedback === 'correct' ? '✓' : '✕'}</Text>
+        </View>
+      )}
       <Card style={styles.card} elevation={2}>
         <Card.Content>
           <Text variant="titleLarge" style={styles.question}>
@@ -180,6 +195,24 @@ const styles = StyleSheet.create({
   },
   option: {
     marginVertical: 4,
+  },
+  feedbackContainer: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    borderRadius: 16,
+    padding: 8,
+  },
+  feedbackText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  correct: {
+    backgroundColor: '#4caf50',
+  },
+  wrong: {
+    backgroundColor: '#f44336',
   },
 });
 
