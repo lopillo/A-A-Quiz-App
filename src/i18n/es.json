@@ -1,6 +1,5 @@
 {
   "title": "📚 App de Matemáticas A&A",
-  "highScore": "Puntuación máxima: {{count}}",
   "startQuiz": "¡Comienza tu cuestionario!",
   "correctedQuestions": "Preguntas corregidas",
   "none": "Ninguna",

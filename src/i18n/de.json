@@ -1,6 +1,5 @@
 {
   "title": "📚 A&A Mathematik Lern-App",
-  "highScore": "Höchste Punktzahl: {{count}}",
   "startQuiz": "Quiz starten",
   "correctedQuestions": "Korrigierte Fragen",
   "none": "Keine",
