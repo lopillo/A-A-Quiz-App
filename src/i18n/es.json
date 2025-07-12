@@ -22,7 +22,10 @@
   "q5": "¿Cuánto es 3 × 3?",
   "q6": "¿Cuánto es 4 × 5?",
   "q7": "¿Cuánto es 8 ÷ 2?",
-  "q8": "¿Cuánto es 10 ÷ 5?"
-  "operation_all": "Todas"
+  "q8": "¿Cuánto es 10 ÷ 5?",
+  "operation_all": "Todas",
+  "selectOperation": "Seleccionar operación",
+  "viewRecords": "Ver récords",
+  "highScores": "Récords"
 }
 
