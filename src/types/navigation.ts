@@ -5,6 +5,7 @@ export type RootStackParamList = {
   Quiz: {
     operation?: import('./score').Operation | 'all';
     playerName: string;
+    questions?: import('../data/questions').MathQuestion[];
   };
   Result: {
     scores: import('./score').OperationCount;

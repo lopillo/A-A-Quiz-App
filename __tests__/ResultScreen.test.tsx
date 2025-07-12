@@ -6,7 +6,7 @@ import type { OperationCount } from '../src/types/score';
 import { LanguageProvider } from '../src/i18n/LanguageContext';
 import { setLocale } from '../src/i18n';
 
-const questions = generateQuestions();
+const questions = generateQuestions({ shuffleQuestions: false, shuffleOptions: false });
 const TOTALS: OperationCount = questions.reduce<OperationCount>(
   (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
   { add: 0, subtract: 0, multiply: 0, divide: 0 }

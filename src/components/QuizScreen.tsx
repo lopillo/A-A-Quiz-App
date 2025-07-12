@@ -12,7 +12,12 @@ import { t, type TranslationKey } from '../i18n';
 type Props = NativeStackScreenProps<RootStackParamList, 'Quiz'>;
 
 const QuizScreen = ({ navigation, route }: Props) => {
-  const allQuestions = useMemo(() => generateQuestions(), []);
+  const allQuestions = useMemo(() => {
+    if (route.params?.questions) {
+      return route.params.questions;
+    }
+    return generateQuestions();
+  }, [route.params?.questions]);
   const { playerName } = route.params;
   const selectedOp = route.params?.operation ?? 'all';
   const activeQuestions =
