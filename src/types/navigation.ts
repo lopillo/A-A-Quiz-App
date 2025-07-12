@@ -1,5 +1,7 @@
 export type RootStackParamList = {
   Home: undefined;
+  Selection: undefined;
+  HighScore: undefined;
   Quiz: { operation?: import('./score').Operation | 'all' } | undefined;
   Result: {
     scores: import('./score').OperationCount;

@@ -19,7 +19,7 @@ jest.mock('@react-navigation/native', () => {
 });
 
 describe('HomeScreen', () => {
-  it('navigates to Quiz on button press', () => {
+  it('navigates to Selection on button press', () => {
     const navigate = jest.fn();
     setLocale('en');
     const { getByText } = render(
@@ -29,6 +29,6 @@ describe('HomeScreen', () => {
     );
 
     fireEvent.press(getByText(t('startQuiz')));
-    expect(navigate).toHaveBeenCalledWith('Quiz');
+    expect(navigate).toHaveBeenCalledWith('Selection');
   });
 });
