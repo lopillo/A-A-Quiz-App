@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { OperationRecordMap } from '../types/score';
+import type { OperationRecordMap, Operation, OperationRecord } from '../types/score';
 
 const HIGH_SCORE_KEY = 'HIGH_SCORE';
 
 const DEFAULT_SCORES: OperationRecordMap = {
-  add: { score: 0, playerName: '', date: '' },
-  subtract: { score: 0, playerName: '', date: '' },
-  multiply: { score: 0, playerName: '', date: '' },
-  divide: { score: 0, playerName: '', date: '' },
+  add: { score: 0, playerName: '', date: '', badge: null },
+  subtract: { score: 0, playerName: '', date: '', badge: null },
+  multiply: { score: 0, playerName: '', date: '', badge: null },
+  divide: { score: 0, playerName: '', date: '', badge: null },
 };
 
 export const getHighScore = async (): Promise<OperationRecordMap> => {
@@ -16,7 +16,12 @@ export const getHighScore = async (): Promise<OperationRecordMap> => {
     return { ...DEFAULT_SCORES };
   }
   try {
-    return { ...DEFAULT_SCORES, ...JSON.parse(value) } as OperationRecordMap;
+    const parsed = JSON.parse(value) as Partial<OperationRecordMap>;
+    const result: OperationRecordMap = { ...DEFAULT_SCORES };
+    (Object.keys(DEFAULT_SCORES) as Operation[]).forEach((op) => {
+      result[op] = { ...DEFAULT_SCORES[op], ...(parsed[op] as Partial<OperationRecord>) };
+    });
+    return result;
   } catch {
     return { ...DEFAULT_SCORES };
   }
