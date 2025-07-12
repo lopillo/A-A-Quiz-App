@@ -68,7 +68,8 @@ describe('QuizScreen', () => {
     const cycleScores: OperationCount = { ...cycleTotals };
     cycleScores[questions[0].operation] -= 1;
 
-    fireEvent.press(getByText(questions[0].options[0]));
+    const wrongIndex = (questions[0].correctAnswer + 1) % questions[0].options.length;
+    fireEvent.press(getByText(questions[0].options[wrongIndex]));
     for (let i = 1; i < 10; i++) {
       fireEvent.press(getByText(questions[i].options[questions[i].correctAnswer]));
     }
