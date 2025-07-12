@@ -1,12 +1,13 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import QuizScreen from '../src/components/QuizScreen';
-import { questions } from '../src/data/questions';
+import { generateQuestions } from '../src/data/questions';
 import type { OperationCount } from '../src/types/score';
 import { Alert } from 'react-native';
 import { LanguageProvider } from '../src/i18n/LanguageContext';
 import { setLocale } from '../src/i18n';
 
+const questions = generateQuestions();
 const TOTALS: OperationCount = questions.reduce<OperationCount>(
   (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
   { add: 0, subtract: 0, multiply: 0, divide: 0 }
@@ -41,7 +42,7 @@ describe('QuizScreen', () => {
 
     await waitFor(() =>
       expect(navigate).toHaveBeenCalledWith('Result', {
-        scores: { add: 2, subtract: 2, multiply: 2, divide: 2 },
+        scores: TOTALS,
         totals: TOTALS,
       })
     );
@@ -72,7 +73,7 @@ describe('QuizScreen', () => {
     await waitFor(() => expect(alertSpy).toHaveBeenCalled());
     await waitFor(() =>
       expect(navigate).toHaveBeenCalledWith('Result', {
-        scores: { add: 2, subtract: 2, multiply: 2, divide: 2 },
+        scores: TOTALS,
         totals: TOTALS,
       })
     );

@@ -1,59 +1,67 @@
+export type Operation = 'add' | 'subtract' | 'multiply' | 'divide';
+
 export type MathQuestion = {
-  textKey: string;
+  textKey: 'addQuestion' | 'subtractQuestion' | 'multiplyQuestion' | 'divideQuestion';
+  a: number;
+  b: number;
   options: string[];
   correctAnswer: number; // index of the correct option
-  operation: 'add' | 'subtract' | 'multiply' | 'divide';
+  operation: Operation;
 };
 
-export type Operation = MathQuestion['operation'];
+export function generateQuestions(): MathQuestion[] {
+  const questions: MathQuestion[] = [];
 
-export const questions: MathQuestion[] = [
-  {
-    textKey: 'q1',
-    options: ['1', '2', '3', '4'],
-    correctAnswer: 1,
-    operation: 'add',
-  },
-  {
-    textKey: 'q2',
-    options: ['6', '7', '8', '9'],
-    correctAnswer: 1, // 7
-    operation: 'add',
-  },
-  {
-    textKey: 'q3',
-    options: ['2', '3', '4', '5'],
-    correctAnswer: 1, // 3
-    operation: 'subtract',
-  },
-  {
-    textKey: 'q4',
-    options: ['3', '4', '5', '6'],
-    correctAnswer: 2, // 5
-    operation: 'subtract',
-  },
-  {
-    textKey: 'q5',
-    options: ['6', '8', '9', '12'],
-    correctAnswer: 2, // 9
-    operation: 'multiply',
-  },
-  {
-    textKey: 'q6',
-    options: ['15', '18', '20', '25'],
-    correctAnswer: 2, // 20
-    operation: 'multiply',
-  },
-  {
-    textKey: 'q7',
-    options: ['2', '3', '4', '5'],
-    correctAnswer: 2, // 4
-    operation: 'divide',
-  },
-  {
-    textKey: 'q8',
-    options: ['1', '2', '3', '4'],
-    correctAnswer: 1, // 2
-    operation: 'divide',
-  },
-];
+  for (let a = 1; a <= 10; a++) {
+    for (let b = 1; b <= 10; b++) {
+      // Addition
+      const addResult = a + b;
+      questions.push({
+        textKey: 'addQuestion',
+        a,
+        b,
+        options: [String(addResult - 1), String(addResult), String(addResult + 1), String(addResult + 2)],
+        correctAnswer: 1,
+        operation: 'add',
+      });
+
+      // Subtraction (ensure non-negative by making minuend >= subtrahend)
+      const minuend = a >= b ? a : b;
+      const subtrahend = a >= b ? b : a;
+      const subResult = minuend - subtrahend;
+      questions.push({
+        textKey: 'subtractQuestion',
+        a: minuend,
+        b: subtrahend,
+        options: [String(subResult - 1), String(subResult), String(subResult + 1), String(subResult + 2)],
+        correctAnswer: 1,
+        operation: 'subtract',
+      });
+
+      // Multiplication
+      const mulResult = a * b;
+      questions.push({
+        textKey: 'multiplyQuestion',
+        a,
+        b,
+        options: [String(mulResult - 1), String(mulResult), String(mulResult + 1), String(mulResult + 2)],
+        correctAnswer: 1,
+        operation: 'multiply',
+      });
+
+      // Division (use a*b ÷ b = a)
+      const dividend = a * b;
+      const divResult = a;
+      questions.push({
+        textKey: 'divideQuestion',
+        a: dividend,
+        b,
+        options: [String(divResult - 1), String(divResult), String(divResult + 1), String(divResult + 2)],
+        correctAnswer: 1,
+        operation: 'divide',
+      });
+    }
+  }
+
+  return questions;
+}

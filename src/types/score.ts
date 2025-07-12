@@ -1,5 +1,3 @@
-import type { MathQuestion } from '../data/questions';
-
-export type Operation = MathQuestion['operation'];
+import type { Operation } from '../data/questions';
 
 export type OperationCount = Record<Operation, number>;

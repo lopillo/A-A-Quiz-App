@@ -5,18 +5,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
 import { getHighScore, setHighScore } from '../storage/highScore';
 import { RootStackParamList } from '../types/navigation';
-import { questions } from '../data/questions';
+import { generateQuestions } from '../data/questions';
 import type { OperationCount, Operation } from '../types/score';
-import { t } from '../i18n';
+import { t, type TranslationKey } from '../i18n';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Quiz'>;
 
 const QuizScreen = ({ navigation, route }: Props) => {
+  const allQuestions = useMemo(() => generateQuestions(), []);
   const selectedOp = route.params?.operation ?? 'all';
   const activeQuestions =
     selectedOp === 'all'
-      ? questions
-      : questions.filter((q) => q.operation === selectedOp);
+      ? allQuestions
+      : allQuestions.filter((q) => q.operation === selectedOp);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [scoreByOp, setScoreByOp] = useState<OperationCount>({
@@ -64,7 +65,13 @@ const QuizScreen = ({ navigation, route }: Props) => {
     corrected: number[]
   ) => {
     const summaryText = corrected
-      .map((i) => `- ${t(activeQuestions[i].textKey as any)}`)
+      .map(
+        (i) =>
+          `- ${t(activeQuestions[i].textKey as TranslationKey, {
+            a: activeQuestions[i].a,
+            b: activeQuestions[i].b,
+          })}`
+      )
       .join('\n');
     await new Promise<void>((resolve) => {
       Alert.alert(t('correctedQuestions'), summaryText || t('none'), [
@@ -161,7 +168,7 @@ const QuizScreen = ({ navigation, route }: Props) => {
       <Card style={styles.card} elevation={2}>
         <Card.Content>
           <Text variant="titleLarge" style={styles.question}>
-            {t(question.textKey as any)}
+            {t(question.textKey as TranslationKey, { a: question.a, b: question.b })}
           </Text>
         </Card.Content>
       </Card>
