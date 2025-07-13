@@ -36,4 +36,17 @@ describe('SelectionScreen', () => {
     fireEvent.press(getByText(t('viewRecords')));
     expect(navigate).toHaveBeenCalledWith('HighScore');
   });
+
+  it('shows current score when provided', () => {
+    const { getByText } = render(
+      <LanguageProvider>
+        <SelectionScreen
+          navigation={{} as any}
+          route={{ key: '3', name: 'Selection', params: { playerName: 'Bob', score: 3 } } as any}
+        />
+      </LanguageProvider>
+    );
+
+    expect(getByText(t('currentScore', { score: 3, total: 10 }))).toBeTruthy();
+  });
 });

@@ -34,5 +34,6 @@
   "enterName": "Ingresa tu nombre"
   ,"roundSummary": "Resumen de ronda"
   ,"backToSelection": "Volver a selección"
+  ,"currentScore": "Puntuación actual: {{score}} / {{total}}"
 }
 
