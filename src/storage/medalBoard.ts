@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { Operation, OperationRecord, BadgeLevel } from '../types/score';
-import type { MedalBoardMap, OperationCount } from '../types/score';
+import type { MedalBoardMap, OperationCount, MedalCounts } from '../types/score';
 
 const MEDAL_BOARD_KEY = 'MEDAL_BOARD';
 
@@ -66,4 +66,21 @@ export const updateMedalBoard = async (
   if (changed) {
     await setMedalBoard(board);
   }
+};
+
+export const getMedalCounts = async (): Promise<MedalCounts> => {
+  const board = await getMedalBoard();
+  let gold = 0;
+  let silver = 0;
+  let bronze = 0;
+  (Object.keys(board) as Operation[]).forEach((op) => {
+    board[op].forEach((rec) => {
+      if (rec.badge === 'gold') gold += 1;
+      else if (rec.badge === 'silver') silver += 1;
+      else if (rec.badge === 'bronze') bronze += 1;
+    });
+  });
+  const total = 40;
+  const none = Math.max(0, total - gold - silver - bronze);
+  return { gold, silver, bronze, none };
 };

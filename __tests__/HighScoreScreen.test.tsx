@@ -23,6 +23,12 @@ jest.mock('../src/storage/highScore', () => ({
   ),
 }));
 
+jest.mock('../src/storage/medalBoard', () => ({
+  getMedalCounts: jest.fn(() =>
+    Promise.resolve({ gold: 1, silver: 1, bronze: 0, none: 38 })
+  ),
+}));
+
 describe('HighScoreScreen', () => {
   beforeEach(() => setLocale('en'));
 
@@ -34,5 +40,6 @@ describe('HighScoreScreen', () => {
     );
     await findByText(`${t('addition')}: 2 (Bob 2024-01-01) - Gold Badge`);
     await findByText(`${t('subtraction')}: 1 (Alice 2024-01-02) - Silver Badge`);
+    await findByText(t('medalSummary'));
   });
 });

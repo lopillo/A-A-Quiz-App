@@ -40,5 +40,7 @@
   ,"roundSummary": "Resumen de ronda"
   ,"backToSelection": "Volver a selección"
   ,"currentScore": "Puntuación actual: {{score}} / {{total}}"
+  ,"medalSummary": "Resumen de medallas"
+  ,"total": "total"
 }
 

@@ -40,5 +40,7 @@
   ,"roundSummary": "Round Summary"
   ,"backToSelection": "Back to Selection"
   ,"currentScore": "Current score: {{score}} / {{total}}"
+  ,"medalSummary": "Medal Summary"
+  ,"total": "total"
 }
 
