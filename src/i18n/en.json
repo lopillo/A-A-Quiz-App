@@ -30,10 +30,22 @@
   "divideQuestion": "What is {{a}} ÷ {{b}}?",
   "selectOperation": "Select Operation",
   "viewRecords": "View Records",
+  "viewMedals": "View Medals",
   "highScores": "High Scores",
-  "enterName": "Enter your name"
+  "enterName": "Enter your name",
+  "medalBoard": "Medal Board",
+  "gold": "Gold",
+  "silver": "Silver",
+  "bronze": "Bronze"
+ ,"medalBoardTitle": "Medal Board"
+ ,"goldCount": "🥇 {{count}}"
+ ,"silverCount": "🥈 {{count}}"
+ ,"bronzeCount": "🥉 {{count}}"
+ ,"noBadgeCount": "❌ {{count}}"
   ,"roundSummary": "Round Summary"
   ,"backToSelection": "Back to Selection"
   ,"currentScore": "Current score: {{score}} / {{total}}"
+  ,"medalSummary": "Medal Summary"
+  ,"total": "total"
 }
 

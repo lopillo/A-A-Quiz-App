@@ -16,10 +16,22 @@ This project is a simple quiz application built with [Expo](https://expo.dev) an
    ```
 3. The CLI will offer options to open the app in a development build, simulator/emulator or Expo Go.
 
-To run the Jest test suite use:
+### Usage
+
+1. Launch the development server and open the app on a device or emulator.
+2. From the home screen enter your name and start a quiz.
+3. After each round you can review mistakes before moving on.
+4. Use the **View Records** and **View Medals** buttons on the selection screen to see stored high scores and medal standings.
+
+## Running tests
+
+Install dependencies once with `npm install` and then execute:
+
 ```bash
 npm test
 ```
+
+This runs the Jest suite located in the `__tests__` folder.
 
 ## Features
 
@@ -29,6 +41,17 @@ npm test
 - Badge system that rewards bronze, silver or gold depending on the final score
 - Works on Android, iOS and the web via Expo
 - Multi-language UI with runtime language selection
+- Medal board stores the top three results per operation and tracks how many medals have been collected
+
+## Medal standings
+
+Medals are awarded for each arithmetic operation based on accuracy:
+
+- **Gold** – 100% correct answers
+- **Silver** – at least 80% correct
+- **Bronze** – at least 50% correct
+
+Whenever a quiz finishes, the `updateMedalBoard` function writes the result to `AsyncStorage`. Each operation keeps the best three scores along with the medal earned. A summary view counts all medals collected out of **40 total badges** available across the app.
 
 ## Animations
 

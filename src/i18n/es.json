@@ -30,10 +30,22 @@
   "operation_all": "Todas",
   "selectOperation": "Seleccionar operación",
   "viewRecords": "Ver récords",
+  "viewMedals": "Ver medallas",
   "highScores": "Récords",
-  "enterName": "Ingresa tu nombre"
+  "enterName": "Ingresa tu nombre",
+  "medalBoard": "Tabla de medallas",
+  "gold": "Oro",
+  "silver": "Plata",
+  "bronze": "Bronce"
+ ,"medalBoardTitle": "Tabla de medallas"
+ ,"goldCount": "🥇 {{count}}"
+ ,"silverCount": "🥈 {{count}}"
+ ,"bronzeCount": "🥉 {{count}}"
+ ,"noBadgeCount": "❌ {{count}}"
   ,"roundSummary": "Resumen de ronda"
   ,"backToSelection": "Volver a selección"
   ,"currentScore": "Puntuación actual: {{score}} / {{total}}"
+  ,"medalSummary": "Resumen de medallas"
+  ,"total": "total"
 }
 
