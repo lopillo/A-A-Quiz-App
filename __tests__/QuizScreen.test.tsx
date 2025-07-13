@@ -43,6 +43,7 @@ describe('QuizScreen', () => {
       expect(navigate).toHaveBeenCalledWith('Result', {
         scores: TOTALS,
         totals: TOTALS,
+        playerName: 'Bob',
       })
     );
     const { setHighScore } = require('../src/storage/highScore');

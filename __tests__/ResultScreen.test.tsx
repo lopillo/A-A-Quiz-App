@@ -14,12 +14,20 @@ const TOTALS: OperationCount = questions.reduce<OperationCount>(
 
 const PERFECT: OperationCount = { ...TOTALS };
 
-const renderScreen = (scores: OperationCount, totals: OperationCount = TOTALS) =>
+const renderScreen = (
+  scores: OperationCount,
+  totals: OperationCount = TOTALS,
+  playerName = 'Bob'
+) =>
   render(
     <LanguageProvider>
       <ResultScreen
         navigation={{ navigate: jest.fn() } as any}
-        route={{ key: 'result', name: 'Result', params: { scores, totals } } as any }
+        route={{
+          key: 'result',
+          name: 'Result',
+          params: { scores, totals, playerName },
+        } as any}
       />
     </LanguageProvider>
   );

@@ -58,4 +58,31 @@ describe('RoundSummaryScreen', () => {
       'Bob'
     );
   });
+
+  it('allows navigating back to selection after a perfect round', async () => {
+    const replace = jest.fn();
+    const { getByText } = render(
+      <LanguageProvider>
+        <RoundSummaryScreen
+          navigation={{ replace } as any}
+          route={{
+            key: 'r2',
+            name: 'RoundSummary',
+            params: {
+              questions: [question],
+              results: [true],
+              allCorrect: true,
+              playerName: 'Bob',
+              score: 1,
+            },
+          } as any}
+        />
+      </LanguageProvider>
+    );
+
+    fireEvent.press(getByText(t('backToSelection')));
+    await waitFor(() =>
+      expect(replace).toHaveBeenCalledWith('Selection', { playerName: 'Bob', score: 1 })
+    );
+  });
 });
