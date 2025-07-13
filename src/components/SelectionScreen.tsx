@@ -64,6 +64,16 @@ const SelectionScreen: React.FC<Props> = ({ navigation, route }) => {
       >
         {t('viewRecords')}
       </Button>
+      <Button
+        mode="outlined"
+        style={styles.button}
+        onPress={() => navigation.navigate('MedalBoard')}
+        icon={({ size, color }) => (
+          <MaterialCommunityIcons name="medal" size={size} color={color} />
+        )}
+      >
+        {t('viewMedals')}
+      </Button>
     </SafeAreaView>
   );
 };

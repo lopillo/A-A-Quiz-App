@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../types/navigation';
 import { updateHighScoreIfNeeded } from '../storage/highScore';
+import { updateMedalBoard } from '../storage/medalBoard';
 import type { MathQuestion } from '../data/questions';
 import { t, type TranslationKey } from '../i18n';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -94,6 +95,7 @@ const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
           onPress={async () => {
             if (totals && scores) {
               await updateHighScoreIfNeeded(scores, totals, playerName);
+              await updateMedalBoard(scores, totals, playerName);
             }
             navigation.replace('Selection', { playerName, score });
           }}
