@@ -1,6 +1,6 @@
 export type RootStackParamList = {
   Home: undefined;
-  Selection: { playerName: string };
+  Selection: { playerName: string; score?: number };
   HighScore: undefined;
   Quiz: {
     operation?: import('./score').Operation | 'all';
@@ -9,5 +9,12 @@ export type RootStackParamList = {
   Result: {
     scores: import('./score').OperationCount;
     totals: import('./score').OperationCount;
+  };
+  RoundSummary: {
+    questions: import('../data/questions').MathQuestion[];
+    results: boolean[];
+    allCorrect: boolean;
+    playerName: string;
+    score: number;
   };
 };
