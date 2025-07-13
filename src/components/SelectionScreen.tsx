@@ -16,12 +16,17 @@ const styles = StyleSheet.create({
 type Props = NativeStackScreenProps<RootStackParamList, 'Selection'>;
 
 const SelectionScreen: React.FC<Props> = ({ navigation, route }) => {
-  const { playerName } = route.params;
+  const { playerName, score } = route.params;
   return (
     <SafeAreaView style={styles.container}>
       <Text variant="titleLarge" style={styles.title}>
         {t('selectOperation')}
       </Text>
+      {typeof score === 'number' && (
+        <Text variant="titleMedium" style={styles.title}>
+          {t('currentScore', { score, total: 10 })}
+        </Text>
+      )}
       <Button
         mode="contained"
         onPress={() => navigation.navigate('Quiz', { operation: 'add', playerName })}

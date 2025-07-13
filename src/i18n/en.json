@@ -34,5 +34,6 @@
   "enterName": "Enter your name"
   ,"roundSummary": "Round Summary"
   ,"backToSelection": "Back to Selection"
+  ,"currentScore": "Current score: {{score}} / {{total}}"
 }
 
