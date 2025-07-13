@@ -39,6 +39,7 @@ const QuizScreen = ({ navigation, route }: Props) => {
   });
   const [mistakes, setMistakes] = useState(0);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
+  const [cycleResults, setCycleResults] = useState<boolean[]>([]);
 
   const finishQuiz = async (finalScores: OperationCount, finalTotals: OperationCount) => {
     const highScore = await getHighScore();
@@ -87,6 +88,14 @@ const QuizScreen = ({ navigation, route }: Props) => {
       setMistakes((m) => m + 1);
     }
 
+    setCycleResults((prev) => [...prev, isCorrect]);
+
+    const updatedScore = isCorrect ? score + 1 : score;
+    const updatedScoreByOp = isCorrect
+      ? { ...scoreByOp, [op]: scoreByOp[op] + 1 }
+      : scoreByOp;
+    const updatedTotals = { ...totals, [op]: totals[op] + 1 };
+
     const next = current + 1;
     if (next < QUESTIONS_PER_CYCLE && questionIndex + 1 < activeQuestions.length) {
       setCurrent(next);
@@ -94,21 +103,34 @@ const QuizScreen = ({ navigation, route }: Props) => {
     }
 
     // Cycle finished
+    const roundQuestions = activeQuestions.slice(
+      cycle * QUESTIONS_PER_CYCLE,
+      cycle * QUESTIONS_PER_CYCLE + QUESTIONS_PER_CYCLE
+    );
+    const results = [...cycleResults, isCorrect];
+
     if (mistakes + (isCorrect ? 0 : 1) > 0) {
-      await finishQuiz(
-        isCorrect ? { ...scoreByOp, [op]: scoreByOp[op] + 1 } : scoreByOp,
-        { ...totals, [op]: totals[op] + 1 }
-      );
+      navigation.navigate('RoundSummary', {
+        questions: roundQuestions,
+        results,
+        allCorrect: false,
+        playerName,
+        score: updatedScore,
+      });
     } else if (cycle + 1 < totalCycles) {
-      // next cycle
       setCycle(cycle + 1);
       setCurrent(0);
       setMistakes(0);
+      setCycleResults([]);
+      navigation.navigate('RoundSummary', {
+        questions: roundQuestions,
+        results,
+        allCorrect: true,
+        playerName,
+        score: updatedScore,
+      });
     } else {
-      await finishQuiz(
-        isCorrect ? { ...scoreByOp, [op]: scoreByOp[op] + 1 } : scoreByOp,
-        { ...totals, [op]: totals[op] + 1 }
-      );
+      await finishQuiz(updatedScoreByOp, updatedTotals);
     }
   };
 
