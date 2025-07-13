@@ -5,6 +5,7 @@
   "none": "Keine",
   "continue": "Weiter",
   "yourScore": "Dein Ergebnis: {{score}} / {{total}}",
+  "roundScore": "{{score}} / {{total}}",
   "goHome": "Zurück zur Startseite",
   "badgesEarned": "Verdiente Abzeichen:",
   "addition": "Addition",
