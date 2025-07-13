@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../types/navigation';
@@ -8,7 +8,7 @@ import { updateHighScoreIfNeeded } from '../storage/highScore';
 import type { MathQuestion } from '../data/questions';
 import { t, type TranslationKey } from '../i18n';
 import { useLanguage } from '../i18n/LanguageContext';
-import ConfettiCannon from 'react-native-confetti-cannon';
+import LottieView from 'lottie-react-native';
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 16 },
@@ -29,18 +29,12 @@ const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
     route.params;
   useLanguage();
 
-  const { width } = Dimensions.get('window');
-  const [showConfetti, setShowConfetti] = React.useState(allCorrect);
+  const [showAnimation, setShowAnimation] = React.useState(true);
 
   React.useEffect(() => {
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    if (allCorrect) {
-      timer = setTimeout(() => setShowConfetti(false), 3000);
-    }
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [allCorrect]);
+    const timer = setTimeout(() => setShowAnimation(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const renderRow = (q: MathQuestion, idx: number) => (
     <View key={idx} style={styles.row}>
@@ -60,11 +54,16 @@ const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {allCorrect && showConfetti && (
-        <ConfettiCannon
-          count={50}
-          origin={{ x: width / 2, y: 0 }}
-          fadeOut
+      {showAnimation && (
+        <LottieView
+          source={
+            allCorrect
+              ? require('../../assets/lottie/success.json')
+              : require('../../assets/lottie/failure.json')
+          }
+          autoPlay
+          loop={false}
+          style={{ width: 200, height: 200, alignSelf: 'center' }}
         />
       )}
       <Card style={styles.card} elevation={2}>
