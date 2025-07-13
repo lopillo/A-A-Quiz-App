@@ -49,7 +49,7 @@ const MedalBoardScreen: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <Card style={styles.card} elevation={2}>
         <Card.Content>
-          <Text variant="titleLarge">{t('medalBoard')}</Text>
+          <Text variant="titleLarge">{t('medalBoardTitle')}</Text>
           {renderList('add', t('addition'))}
           {renderList('subtract', t('subtraction'))}
           {renderList('multiply', t('multiplication'))}

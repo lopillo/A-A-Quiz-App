@@ -37,6 +37,11 @@
   "gold": "Oro",
   "silver": "Plata",
   "bronze": "Bronce"
+ ,"medalBoardTitle": "Tabla de medallas"
+ ,"goldCount": "🥇 {{count}}"
+ ,"silverCount": "🥈 {{count}}"
+ ,"bronzeCount": "🥉 {{count}}"
+ ,"noBadgeCount": "❌ {{count}}"
   ,"roundSummary": "Resumen de ronda"
   ,"backToSelection": "Volver a selección"
   ,"currentScore": "Puntuación actual: {{score}} / {{total}}"

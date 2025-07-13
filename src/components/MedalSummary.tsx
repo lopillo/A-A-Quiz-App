@@ -30,10 +30,10 @@ const MedalSummary: React.FC = () => {
     <View style={styles.container}>
       <Text variant="titleMedium">{t('medalSummary')}</Text>
       <View style={styles.row}>
-        <Text>🥇 {counts.gold}</Text>
-        <Text>🥈 {counts.silver}</Text>
-        <Text>🥉 {counts.bronze}</Text>
-        <Text>❌ {counts.none}</Text>
+        <Text>{t('goldCount', { count: counts.gold })}</Text>
+        <Text>{t('silverCount', { count: counts.silver })}</Text>
+        <Text>{t('bronzeCount', { count: counts.bronze })}</Text>
+        <Text>{t('noBadgeCount', { count: counts.none })}</Text>
       </View>
       <Text style={styles.total}>40 {t('total')}</Text>
     </View>
