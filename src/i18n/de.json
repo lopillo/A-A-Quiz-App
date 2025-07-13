@@ -40,5 +40,7 @@
   ,"roundSummary": "Rundenübersicht"
   ,"backToSelection": "Zur Auswahl zurück"
   ,"currentScore": "Aktueller Punktestand: {{score}} / {{total}}"
+  ,"medalSummary": "Medaillenübersicht"
+  ,"total": "insgesamt"
 }
 

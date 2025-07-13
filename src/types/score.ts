@@ -14,3 +14,10 @@ export type OperationRecord = {
 export type OperationRecordMap = Record<Operation, OperationRecord>;
 
 export type MedalBoardMap = Record<Operation, OperationRecord[]>;
+
+export type MedalCounts = {
+  gold: number;
+  silver: number;
+  bronze: number;
+  none: number;
+};

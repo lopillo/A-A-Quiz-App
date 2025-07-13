@@ -8,6 +8,7 @@ import { RootStackParamList } from '../types/navigation';
 import { getHighScore } from '../storage/highScore';
 import { t } from '../i18n';
 import type { OperationRecordMap, BadgeLevel } from '../types/score';
+import MedalSummary from './MedalSummary';
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 16 },
@@ -52,6 +53,7 @@ const HighScoreScreen: React.FC<Props> = ({ navigation }) => {
           </Text>
         </Card.Content>
       </Card>
+      <MedalSummary />
       <Button mode="contained" onPress={() => navigation.goBack()}>
         {t('goHome')}
       </Button>
