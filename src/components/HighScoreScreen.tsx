@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
@@ -26,9 +27,11 @@ const HighScoreScreen: React.FC<Props> = ({ navigation }) => {
     divide: { score: 0, playerName: '', date: '', badge: null },
   });
 
-  useEffect(() => {
-    getHighScore().then(setScores);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getHighScore().then(setScores);
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.container}>

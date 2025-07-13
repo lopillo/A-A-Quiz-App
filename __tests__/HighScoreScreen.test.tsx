@@ -4,6 +4,14 @@ import HighScoreScreen from '../src/components/HighScoreScreen';
 import { LanguageProvider } from '../src/i18n/LanguageContext';
 import { setLocale, t } from '../src/i18n';
 
+jest.mock('@react-navigation/native', () => {
+  const actual = jest.requireActual('@react-navigation/native');
+  return {
+    ...actual,
+    useFocusEffect: (cb: () => void) => cb(),
+  };
+});
+
 jest.mock('../src/storage/highScore', () => ({
   getHighScore: jest.fn(() =>
     Promise.resolve({
