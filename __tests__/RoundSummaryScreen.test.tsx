@@ -5,7 +5,7 @@ import { LanguageProvider } from '../src/i18n/LanguageContext';
 import { setLocale, t } from '../src/i18n';
 import { generateQuestions } from '../src/data/questions';
 
-jest.mock('lottie-react-native', () => 'LottieView');
+jest.mock('lottie-react', () => 'Lottie');
 
 jest.mock('../src/storage/highScore', () => ({
   updateHighScoreIfNeeded: jest.fn(() => Promise.resolve()),

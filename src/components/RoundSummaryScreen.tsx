@@ -8,7 +8,7 @@ import { updateHighScoreIfNeeded } from '../storage/highScore';
 import type { MathQuestion } from '../data/questions';
 import { t, type TranslationKey } from '../i18n';
 import { useLanguage } from '../i18n/LanguageContext';
-import LottieView from 'lottie-react-native';
+import Lottie from 'lottie-react';
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 16 },
@@ -55,8 +55,8 @@ const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       {showAnimation && (
-        <LottieView
-          source={
+        <Lottie
+          animationData={
             allCorrect
               ? require('../../assets/lottie/success.json')
               : require('../../assets/lottie/failure.json')
