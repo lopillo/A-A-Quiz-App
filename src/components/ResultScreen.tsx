@@ -12,7 +12,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 type Props = NativeStackScreenProps<RootStackParamList, 'Result'>;
 
 export default function ResultScreen({ navigation, route }: Props) {
-  const { scores, totals } = route.params;
+  const { scores, totals, playerName } = route.params;
   useLanguage();
 
   const operationNames: Record<Operation, string> = {
@@ -63,8 +63,8 @@ export default function ResultScreen({ navigation, route }: Props) {
           <BadgeDisplay badges={badges} />
         </Card.Content>
       </Card>
-      <Button mode="contained" onPress={() => navigation.navigate('Home')}>
-        {t('goHome')}
+      <Button onPress={() => navigation.navigate('Selection', { playerName })}>
+        {t('backToSelection')}
       </Button>
     </SafeAreaView>
   );
