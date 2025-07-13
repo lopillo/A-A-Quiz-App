@@ -23,10 +23,15 @@ This project is a simple quiz application built with [Expo](https://expo.dev) an
 3. After each round you can review mistakes before moving on.
 4. Use the **View Records** and **View Medals** buttons on the selection screen to see stored high scores and medal standings.
 
-To run the Jest test suite use:
+## Running tests
+
+Install dependencies once with `npm install` and then execute:
+
 ```bash
 npm test
 ```
+
+This runs the Jest suite located in the `__tests__` folder.
 
 ## Features
 
