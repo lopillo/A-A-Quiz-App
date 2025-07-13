@@ -30,6 +30,23 @@ npm test
 - Works on Android, iOS and the web via Expo
 - Multi-language UI with runtime language selection
 
+## Animations
+
+The celebratory animation on the result screen is powered by
+[Lottie](https://airbnb.io/lottie/) using the `lottie-react` package. Animation
+data lives in the `assets/lottie` folder where the `success.json` and
+`failure.json` files reside.
+
+To use a different animation:
+
+1. Drop the new `.json` file into `assets/lottie`.
+2. Update the `require` statement in
+   `src/components/RoundSummaryScreen.tsx` to point at your file.
+3. Rebuild the project. The library automatically uses `lottie-web` for web
+   builds and `lottie-react-native` on Android and iOS, so no extra setup is
+   required. Avoid animations that load external images as they may not render
+   consistently across platforms.
+
 ## Adding translations
 
 Translation files live in `src/i18n`. Each file is named after its language code
