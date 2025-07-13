@@ -82,10 +82,10 @@ const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
           </Button>
           <Button
             mode="contained"
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.replace('Selection', { playerName, score })}
             style={styles.button}
           >
-            {t('goHome')}
+            {t('backToSelection')}
           </Button>
         </>
       ) : (
