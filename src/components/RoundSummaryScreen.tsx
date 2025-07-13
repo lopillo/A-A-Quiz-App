@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   result: { fontSize: 20, marginLeft: 8 },
   correct: { color: '#4caf50' },
   wrong: { color: '#f44336' },
+  score: { textAlign: 'center', marginBottom: 8 },
   button: { marginTop: 8 },
 });
 
@@ -49,6 +50,9 @@ const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
           {questions.map(renderRow)}
         </Card.Content>
       </Card>
+      <Text variant="titleMedium" style={styles.score}>
+        {t('roundScore', { score, total: questions.length })}
+      </Text>
       {allCorrect ? (
         <>
           <Button mode="contained" onPress={() => navigation.goBack()} style={styles.button}>
