@@ -1,12 +1,13 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../types/navigation';
 import type { MathQuestion } from '../data/questions';
 import { t, type TranslationKey } from '../i18n';
 import { useLanguage } from '../i18n/LanguageContext';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 16 },
@@ -26,6 +27,19 @@ const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
   const { questions, results, allCorrect, playerName, score } = route.params;
   useLanguage();
 
+  const { width } = Dimensions.get('window');
+  const [showConfetti, setShowConfetti] = React.useState(allCorrect);
+
+  React.useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    if (allCorrect) {
+      timer = setTimeout(() => setShowConfetti(false), 3000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [allCorrect]);
+
   const renderRow = (q: MathQuestion, idx: number) => (
     <View key={idx} style={styles.row}>
       <Text style={styles.question}>
@@ -44,6 +58,13 @@ const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {allCorrect && showConfetti && (
+        <ConfettiCannon
+          count={50}
+          origin={{ x: width / 2, y: 0 }}
+          fadeOut
+        />
+      )}
       <Card style={styles.card} elevation={2}>
         <Card.Content>
           <Text variant="titleLarge">{t('roundSummary')}</Text>
