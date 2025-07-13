@@ -74,10 +74,19 @@ describe('QuizScreen', () => {
       fireEvent.press(getByText(questions[i].options[questions[i].correctAnswer]));
     }
 
+    const roundQuestions = questions.slice(0, 10);
+    const results = [false, ...Array(9).fill(true)];
+    const score = Object.values(cycleScores).reduce((a, b) => a + b, 0);
+
     await waitFor(() =>
-      expect(navigate).toHaveBeenCalledWith('Result', {
-        scores: cycleScores,
+      expect(navigate).toHaveBeenCalledWith('RoundSummary', {
+        questions: roundQuestions,
+        results,
+        allCorrect: false,
+        playerName: 'Bob',
+        score,
         totals: cycleTotals,
+        scores: cycleScores,
       })
     );
   });
