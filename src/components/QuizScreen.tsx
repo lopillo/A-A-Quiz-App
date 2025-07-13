@@ -58,6 +58,7 @@ const QuizScreen = ({ navigation, route }: Props) => {
     navigation.navigate('Result', {
       scores: finalScores,
       totals: finalTotals,
+      playerName,
     });
   };
   const handleAnswer = async (index: number) => {

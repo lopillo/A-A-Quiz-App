@@ -9,6 +9,7 @@ export type RootStackParamList = {
   Result: {
     scores: import('./score').OperationCount;
     totals: import('./score').OperationCount;
+    playerName: string;
   };
   RoundSummary: {
     questions: import('../data/questions').MathQuestion[];
