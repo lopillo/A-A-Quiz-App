@@ -30,8 +30,13 @@
   "operation_all": "Alle",
   "selectOperation": "Operation wählen",
   "viewRecords": "Rekorde ansehen",
+  "viewMedals": "Medaillen ansehen",
   "highScores": "Rekorde",
-  "enterName": "Gib deinen Namen ein"
+  "enterName": "Gib deinen Namen ein",
+  "medalBoard": "Medaillenrangliste",
+  "gold": "Gold",
+  "silver": "Silber",
+  "bronze": "Bronze"
   ,"roundSummary": "Rundenübersicht"
   ,"backToSelection": "Zur Auswahl zurück"
   ,"currentScore": "Aktueller Punktestand: {{score}} / {{total}}"

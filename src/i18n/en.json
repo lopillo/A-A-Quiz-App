@@ -30,8 +30,13 @@
   "divideQuestion": "What is {{a}} ÷ {{b}}?",
   "selectOperation": "Select Operation",
   "viewRecords": "View Records",
+  "viewMedals": "View Medals",
   "highScores": "High Scores",
-  "enterName": "Enter your name"
+  "enterName": "Enter your name",
+  "medalBoard": "Medal Board",
+  "gold": "Gold",
+  "silver": "Silver",
+  "bronze": "Bronze"
   ,"roundSummary": "Round Summary"
   ,"backToSelection": "Back to Selection"
   ,"currentScore": "Current score: {{score}} / {{total}}"

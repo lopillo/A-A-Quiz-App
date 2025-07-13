@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
 import { updateHighScoreIfNeeded } from '../storage/highScore';
+import { updateMedalBoard } from '../storage/medalBoard';
 import { RootStackParamList } from '../types/navigation';
 import { generateQuestions } from '../data/questions';
 import type { OperationCount, Operation } from '../types/score';
@@ -55,6 +56,7 @@ const QuizScreen = ({ navigation, route }: Props) => {
     finalTotals: OperationCount
   ) => {
     await updateHighScoreIfNeeded(finalScores, finalTotals, playerName);
+    await updateMedalBoard(finalScores, finalTotals, playerName);
     navigation.navigate('Result', {
       scores: finalScores,
       totals: finalTotals,

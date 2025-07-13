@@ -2,6 +2,7 @@ export type RootStackParamList = {
   Home: undefined;
   Selection: { playerName: string; score?: number };
   HighScore: undefined;
+  MedalBoard: undefined;
   Quiz: {
     operation?: import('./score').Operation | 'all';
     playerName: string;

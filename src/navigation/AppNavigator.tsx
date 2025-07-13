@@ -5,6 +5,7 @@ import React from 'react';
 import HomeScreen from '../components/HomeScreen';
 import SelectionScreen from '../components/SelectionScreen';
 import HighScoreScreen from '../components/HighScoreScreen';
+import MedalBoardScreen from '../components/MedalBoardScreen';
 import QuizScreen from '../components/QuizScreen';
 import ResultScreen from '../components/ResultScreen';
 import RoundSummaryScreen from '../components/RoundSummaryScreen';
@@ -21,6 +22,7 @@ export default function AppNavigator() {
         <Stack.Screen name="Selection" component={SelectionScreen} />
         <Stack.Screen name="Quiz" component={QuizScreen} />
         <Stack.Screen name="HighScore" component={HighScoreScreen} />
+        <Stack.Screen name="MedalBoard" component={MedalBoardScreen} />
         <Stack.Screen name="Result" component={ResultScreen} />
         <Stack.Screen name="RoundSummary" component={RoundSummaryScreen} />
       </Stack.Navigator>
