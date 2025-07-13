@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
@@ -39,7 +39,16 @@ const QuizScreen = ({ navigation, route }: Props) => {
   });
   const [mistakes, setMistakes] = useState(0);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
+  const feedbackTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [cycleResults, setCycleResults] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    return () => {
+      if (feedbackTimeout.current) {
+        clearTimeout(feedbackTimeout.current);
+      }
+    };
+  }, []);
 
   const finishQuiz = async (finalScores: OperationCount, finalTotals: OperationCount) => {
     const highScore = await getHighScore();
@@ -77,7 +86,10 @@ const QuizScreen = ({ navigation, route }: Props) => {
     const op: Operation = question.operation;
 
     setFeedback(isCorrect ? 'correct' : 'wrong');
-    setTimeout(() => setFeedback(null), 800);
+    if (feedbackTimeout.current) {
+      clearTimeout(feedbackTimeout.current);
+    }
+    feedbackTimeout.current = setTimeout(() => setFeedback(null), 800);
 
     setTotals((prev) => ({ ...prev, [op]: prev[op] + 1 }));
 
