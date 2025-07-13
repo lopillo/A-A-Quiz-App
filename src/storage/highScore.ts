@@ -1,5 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { OperationRecordMap, Operation, OperationRecord } from '../types/score';
+import type {
+  OperationRecordMap,
+  Operation,
+  OperationRecord,
+  OperationCount,
+  BadgeLevel,
+} from '../types/score';
 
 const HIGH_SCORE_KEY = 'HIGH_SCORE';
 
@@ -29,4 +35,34 @@ export const getHighScore = async (): Promise<OperationRecordMap> => {
 
 export const setHighScore = async (scores: OperationRecordMap): Promise<void> => {
   await AsyncStorage.setItem(HIGH_SCORE_KEY, JSON.stringify(scores));
+};
+
+export const updateHighScoreIfNeeded = async (
+  scores: OperationCount,
+  totals: OperationCount,
+  playerName: string
+): Promise<void> => {
+  const highScore = await getHighScore();
+  const updated: OperationRecordMap = { ...highScore };
+  let changed = false;
+  (Object.keys(scores) as Operation[]).forEach((op) => {
+    if (scores[op] > highScore[op].score) {
+      const total = totals[op];
+      const pct = total ? scores[op] / total : 0;
+      let badge: BadgeLevel = null;
+      if (pct === 1) badge = 'gold';
+      else if (pct >= 0.8) badge = 'silver';
+      else if (pct >= 0.5) badge = 'bronze';
+      updated[op] = {
+        score: scores[op],
+        playerName,
+        date: new Date().toISOString(),
+        badge,
+      };
+      changed = true;
+    }
+  });
+  if (changed) {
+    await setHighScore(updated);
+  }
 };

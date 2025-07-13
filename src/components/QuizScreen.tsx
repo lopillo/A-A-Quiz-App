@@ -3,10 +3,10 @@ import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
-import { getHighScore, setHighScore } from '../storage/highScore';
+import { updateHighScoreIfNeeded } from '../storage/highScore';
 import { RootStackParamList } from '../types/navigation';
 import { generateQuestions } from '../data/questions';
-import type { OperationCount, Operation, OperationRecordMap, BadgeLevel } from '../types/score';
+import type { OperationCount, Operation } from '../types/score';
 import { t, type TranslationKey } from '../i18n';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Quiz'>;
@@ -50,30 +50,11 @@ const QuizScreen = ({ navigation, route }: Props) => {
     };
   }, []);
 
-  const finishQuiz = async (finalScores: OperationCount, finalTotals: OperationCount) => {
-    const highScore = await getHighScore();
-    const updated: OperationRecordMap = { ...highScore };
-    let changed = false;
-    (Object.keys(finalScores) as Operation[]).forEach((op) => {
-      if (finalScores[op] > highScore[op].score) {
-        const total = finalTotals[op];
-        const pct = total ? finalScores[op] / total : 0;
-        let badge: BadgeLevel = null;
-        if (pct === 1) badge = 'gold';
-        else if (pct >= 0.8) badge = 'silver';
-        else if (pct >= 0.5) badge = 'bronze';
-        updated[op] = {
-          score: finalScores[op],
-          playerName,
-          date: new Date().toISOString(),
-          badge,
-        };
-        changed = true;
-      }
-    });
-    if (changed) {
-      await setHighScore(updated);
-    }
+  const finishQuiz = async (
+    finalScores: OperationCount,
+    finalTotals: OperationCount
+  ) => {
+    await updateHighScoreIfNeeded(finalScores, finalTotals, playerName);
     navigation.navigate('Result', {
       scores: finalScores,
       totals: finalTotals,
@@ -128,6 +109,8 @@ const QuizScreen = ({ navigation, route }: Props) => {
         allCorrect: false,
         playerName,
         score: updatedScore,
+        totals: updatedTotals,
+        scores: updatedScoreByOp,
       });
     } else if (cycle + 1 < totalCycles) {
       setCycle(cycle + 1);

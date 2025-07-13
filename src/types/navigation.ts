@@ -16,5 +16,7 @@ export type RootStackParamList = {
     allCorrect: boolean;
     playerName: string;
     score: number;
+    totals?: import('./score').OperationCount;
+    scores?: import('./score').OperationCount;
   };
 };

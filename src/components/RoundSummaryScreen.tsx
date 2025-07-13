@@ -4,6 +4,7 @@ import { StyleSheet, View, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../types/navigation';
+import { updateHighScoreIfNeeded } from '../storage/highScore';
 import type { MathQuestion } from '../data/questions';
 import { t, type TranslationKey } from '../i18n';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -24,7 +25,8 @@ const styles = StyleSheet.create({
 type Props = NativeStackScreenProps<RootStackParamList, 'RoundSummary'>;
 
 const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
-  const { questions, results, allCorrect, playerName, score } = route.params;
+  const { questions, results, allCorrect, playerName, score, totals, scores } =
+    route.params;
   useLanguage();
 
   const { width } = Dimensions.get('window');
@@ -90,9 +92,12 @@ const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
       ) : (
         <Button
           mode="contained"
-          onPress={() =>
-            navigation.replace('Selection', { playerName, score })
-          }
+          onPress={async () => {
+            if (totals && scores) {
+              await updateHighScoreIfNeeded(scores, totals, playerName);
+            }
+            navigation.replace('Selection', { playerName, score });
+          }}
         >
           {t('backToSelection')}
         </Button>
