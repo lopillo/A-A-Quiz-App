@@ -5,6 +5,8 @@ import {
   ImageBackground,
   StyleSheet,
   View,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -67,15 +69,19 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <Portal>
             <Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
               <Dialog.Title>{t('enterName')}</Dialog.Title>
-              <Dialog.Content>
-                <TextInput
-                  label={t('enterName')}
-                  value={playerName}
-                  onChangeText={setPlayerName}
-                  style={styles.input}
-                  testID="playerNameInput"
-                />
-              </Dialog.Content>
+              <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              >
+                <Dialog.Content>
+                  <TextInput
+                    label={t('enterName')}
+                    value={playerName}
+                    onChangeText={setPlayerName}
+                    style={styles.input}
+                    testID="playerNameInput"
+                  />
+                </Dialog.Content>
+              </KeyboardAvoidingView>
               <Dialog.Actions>
                 <Button onPress={handleSubmitName} disabled={!playerName.trim()}>
                   {t('continue')}
