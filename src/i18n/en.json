@@ -1,7 +1,6 @@
 {
   "title": "📚 A&A Math Learning App",
   "startQuiz": "Start Quiz",
-  "correctedQuestions": "Corrected Questions",
   "none": "None",
   "continue": "Continue",
   "yourScore": "Your Score: {{score}} / {{total}}",
@@ -22,7 +21,6 @@
   "q5": "What is 3 × 3?",
   "q6": "What is 4 × 5?",
   "q7": "What is 8 ÷ 2?",
-  "operation_all": "All",
   "q8": "What is 10 ÷ 5?",
   "addQuestion": "What is {{a}} + {{b}}?",
   "subtractQuestion": "What is {{a}} - {{b}}?",
@@ -33,7 +31,6 @@
   "viewMedals": "View Medals",
   "highScores": "High Scores",
   "enterName": "Enter your name",
-  "medalBoard": "Medal Board",
   "gold": "Gold",
   "silver": "Silver",
   "bronze": "Bronze"
