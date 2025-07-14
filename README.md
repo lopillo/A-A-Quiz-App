@@ -1,6 +1,6 @@
 # A&A Quiz App
 
-[![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/ci.yml)
+[![CI](https://github.com/lopillo/A-A-Quiz-App/actions/workflows/ci.yml/badge.svg)](https://github.com/lopillo/A-A-Quiz-App/actions/workflows/ci.yml)
 
 This project is a simple quiz application built with [Expo](https://expo.dev) and React Native. It showcases a minimal navigation flow with a home screen, quiz questions and a results view that awards badges based on your score. Questions and high score data are stored locally so you can practise even without a network connection.
 
