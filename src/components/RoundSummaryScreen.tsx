@@ -9,7 +9,7 @@ import { updateMedalBoard } from '../storage/medalBoard';
 import type { MathQuestion } from '../data/questions';
 import { t, type TranslationKey } from '../i18n';
 import { useLanguage } from '../i18n/LanguageContext';
-import LottieView from 'lottie-react-native';
+import LottieView from './LottieWrapper';
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 16 },
