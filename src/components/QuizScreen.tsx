@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Card, Text } from 'react-native-paper';
+import { Button, Card, Text, ProgressBar } from 'react-native-paper';
 import { updateHighScoreIfNeeded } from '../storage/highScore';
 import { updateMedalBoard } from '../storage/medalBoard';
 import { RootStackParamList } from '../types/navigation';
@@ -134,6 +134,7 @@ const QuizScreen = ({ navigation, route }: Props) => {
 
   const questionIndexToShow = cycle * QUESTIONS_PER_CYCLE + current;
   const question = activeQuestions[questionIndexToShow];
+  const progress = current / QUESTIONS_PER_CYCLE;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -148,6 +149,7 @@ const QuizScreen = ({ navigation, route }: Props) => {
           <Text style={styles.feedbackText}>{feedback === 'correct' ? '✓' : '✕'}</Text>
         </View>
       )}
+      <ProgressBar progress={progress} style={styles.progressBar} testID="progressBar" />
       <Card style={styles.card} elevation={2}>
         <Card.Content>
           <Text variant="titleLarge" style={styles.question}>
@@ -185,6 +187,9 @@ const styles = StyleSheet.create({
   },
   option: {
     marginVertical: 4,
+  },
+  progressBar: {
+    marginBottom: 12,
   },
   feedbackContainer: {
     position: 'absolute',

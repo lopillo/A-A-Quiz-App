@@ -1,7 +1,6 @@
 {
   "title": "📚 App de Matemáticas A&A",
   "startQuiz": "¡Comienza tu cuestionario!",
-  "correctedQuestions": "Preguntas corregidas",
   "none": "Ninguna",
   "continue": "Continuar",
   "yourScore": "Tu puntuación: {{score}} / {{total}}",
@@ -27,13 +26,11 @@
   "subtractQuestion": "¿Cuánto es {{a}} - {{b}}?",
   "multiplyQuestion": "¿Cuánto es {{a}} × {{b}}?",
   "divideQuestion": "¿Cuánto es {{a}} ÷ {{b}}?",
-  "operation_all": "Todas",
   "selectOperation": "Seleccionar operación",
   "viewRecords": "Ver récords",
   "viewMedals": "Ver medallas",
   "highScores": "Récords",
   "enterName": "Ingresa tu nombre",
-  "medalBoard": "Tabla de medallas",
   "gold": "Oro",
   "silver": "Plata",
   "bronze": "Bronce"

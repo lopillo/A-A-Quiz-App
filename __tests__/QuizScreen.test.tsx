@@ -91,4 +91,18 @@ describe('QuizScreen', () => {
       })
     );
   });
+
+  it('shows progress for the current cycle', () => {
+    const { getByText, getByTestId } = render(
+      <LanguageProvider>
+        <QuizScreen navigation={{} as any} route={{ key: '3', name: 'Quiz', params: { playerName: 'Bob' } } as any} />
+      </LanguageProvider>
+    );
+
+    const progressBar = getByTestId('progressBar');
+    expect(progressBar.props.progress).toBe(0);
+
+    fireEvent.press(getByText(questions[0].options[questions[0].correctAnswer]));
+    expect(getByTestId('progressBar').props.progress).toBeCloseTo(0.1);
+  });
 });
