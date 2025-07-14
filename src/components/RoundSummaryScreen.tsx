@@ -9,7 +9,7 @@ import { updateMedalBoard } from '../storage/medalBoard';
 import type { MathQuestion } from '../data/questions';
 import { t, type TranslationKey } from '../i18n';
 import { useLanguage } from '../i18n/LanguageContext';
-import Lottie from 'lottie-react';
+import LottieView from 'lottie-react-native';
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 16 },
@@ -56,8 +56,8 @@ const RoundSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       {showAnimation && (
-        <Lottie
-          animationData={
+        <LottieView
+          source={
             allCorrect
               ? require('../../assets/lottie/success.json')
               : require('../../assets/lottie/failure.json')
