@@ -6,6 +6,8 @@ import type { OperationCount } from '../src/types/score';
 import { LanguageProvider } from '../src/i18n/LanguageContext';
 import { setLocale } from '../src/i18n';
 
+jest.mock('../src/components/LottieWrapper', () => 'LottieView');
+
 const questions = generateQuestions();
 const TOTALS: OperationCount = questions.reduce<OperationCount>(
   (acc, q) => ({ ...acc, [q.operation]: acc[q.operation] + 1 }),
@@ -59,5 +61,10 @@ describe('ResultScreen badges', () => {
     const scores = { add: 0, subtract: 0, multiply: 0, divide: 0 };
     const { queryByText } = renderScreen(scores, TOTALS);
     expect(queryByText('Badges Earned:')).toBeNull();
+  });
+
+  it('renders success animation on a perfect score', () => {
+    const { UNSAFE_getByType } = renderScreen(PERFECT, TOTALS);
+    expect(UNSAFE_getByType('LottieView')).toBeTruthy();
   });
 });
