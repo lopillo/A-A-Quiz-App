@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import BadgeDisplay, { Badge } from './BadgeDisplay';
+import LottieWrapper from './LottieWrapper';
 import { RootStackParamList } from '../types/navigation';
 import type { Operation, OperationCount } from '../types/score';
 import { t } from '../i18n';
@@ -50,8 +51,19 @@ export default function ResultScreen({ navigation, route }: Props) {
 
   const badges = getEarnedBadges();
 
+  const perfectRun = (Object.keys(totals) as Operation[]).every(
+    (op) => scores[op] === totals[op]
+  );
+
   return (
     <SafeAreaView style={styles.container}>
+      {perfectRun && (
+        <LottieWrapper
+          source={require('../../assets/lottie/success.json')}
+          autoPlay
+          loop={false}
+        />
+      )}
       <Card style={styles.card} elevation={2}>
         <Card.Content>
           <Text variant="titleMedium">
