@@ -1,7 +1,6 @@
 {
   "title": "📚 A&A Mathematik Lern-App",
   "startQuiz": "Quiz starten",
-  "correctedQuestions": "Korrigierte Fragen",
   "none": "Keine",
   "continue": "Weiter",
   "yourScore": "Dein Ergebnis: {{score}} / {{total}}",
@@ -27,13 +26,11 @@
   "subtractQuestion": "Was ist {{a}} - {{b}}?",
   "multiplyQuestion": "Was ist {{a}} × {{b}}?",
   "divideQuestion": "Was ist {{a}} ÷ {{b}}?",
-  "operation_all": "Alle",
   "selectOperation": "Operation wählen",
   "viewRecords": "Rekorde ansehen",
   "viewMedals": "Medaillen ansehen",
   "highScores": "Rekorde",
   "enterName": "Gib deinen Namen ein",
-  "medalBoard": "Medaillenrangliste",
   "gold": "Gold",
   "silver": "Silber",
   "bronze": "Bronze"
