@@ -1,9 +1,9 @@
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import RoundSummaryScreen from '../src/components/RoundSummaryScreen';
-import { LanguageProvider } from '../src/i18n/LanguageContext';
+import { generateQuestions } from '../src/constants/questions';
 import { setLocale, t } from '../src/i18n';
-import { generateQuestions } from '../src/data/questions';
+import { LanguageProvider } from '../src/i18n/LanguageContext';
 
 jest.mock('../src/components/LottieWrapper', () => 'LottieView');
 

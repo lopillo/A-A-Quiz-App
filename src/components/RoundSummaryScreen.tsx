@@ -1,14 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, Text } from 'react-native-paper';
-import { RootStackParamList } from '../types/navigation';
-import { updateHighScoreIfNeeded } from '../storage/highScore';
-import { updateMedalBoard } from '../storage/medalBoard';
-import type { MathQuestion } from '../data/questions';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import type { MathQuestion } from '../constants/questions';
 import { t, type TranslationKey } from '../i18n';
 import { useLanguage } from '../i18n/LanguageContext';
+import { updateHighScoreIfNeeded } from '../storage/highScore';
+import { updateMedalBoard } from '../storage/medalBoard';
+import { RootStackParamList } from '../types/navigation';
 import LottieView from './LottieWrapper';
 
 const styles = StyleSheet.create({

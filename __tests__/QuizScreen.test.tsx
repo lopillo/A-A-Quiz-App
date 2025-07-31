@@ -1,10 +1,10 @@
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import QuizScreen from '../src/components/QuizScreen';
-import { generateQuestions } from '../src/data/questions';
-import type { OperationCount } from '../src/types/score';
-import { LanguageProvider } from '../src/i18n/LanguageContext';
+import { generateQuestions } from '../src/constants/questions';
 import { setLocale } from '../src/i18n';
+import { LanguageProvider } from '../src/i18n/LanguageContext';
+import type { OperationCount } from '../src/types/score';
 
 const questions = generateQuestions();
 const TOTALS: OperationCount = questions.reduce<OperationCount>(

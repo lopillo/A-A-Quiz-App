@@ -1,4 +1,4 @@
-import type { Operation } from '../data/questions';
+import type { Operation } from '../constants/questions';
 
 export type OperationCount = Record<Operation, number>;
 

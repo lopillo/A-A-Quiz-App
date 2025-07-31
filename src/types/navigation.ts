@@ -13,7 +13,7 @@ export type RootStackParamList = {
     playerName: string;
   };
   RoundSummary: {
-    questions: import('../data/questions').MathQuestion[];
+    questions: import('../constants/questions').MathQuestion[];
     results: boolean[];
     allCorrect: boolean;
     playerName: string;

@@ -1,14 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { Button, Card, ProgressBar, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Card, Text, ProgressBar } from 'react-native-paper';
+import { generateQuestions } from '../constants/questions';
+import { t, type TranslationKey } from '../i18n';
 import { updateHighScoreIfNeeded } from '../storage/highScore';
 import { updateMedalBoard } from '../storage/medalBoard';
 import { RootStackParamList } from '../types/navigation';
-import { generateQuestions } from '../data/questions';
-import type { OperationCount, Operation } from '../types/score';
-import { t, type TranslationKey } from '../i18n';
+import type { Operation, OperationCount } from '../types/score';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Quiz'>;
 

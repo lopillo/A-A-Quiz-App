@@ -1,10 +1,10 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
+import React from 'react';
 import ResultScreen from '../src/components/ResultScreen';
-import { generateQuestions } from '../src/data/questions';
-import type { OperationCount } from '../src/types/score';
-import { LanguageProvider } from '../src/i18n/LanguageContext';
+import { generateQuestions } from '../src/constants/questions';
 import { setLocale } from '../src/i18n';
+import { LanguageProvider } from '../src/i18n/LanguageContext';
+import type { OperationCount } from '../src/types/score';
 
 jest.mock('../src/components/LottieWrapper', () => 'LottieView');
 
