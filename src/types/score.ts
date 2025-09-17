@@ -21,3 +21,5 @@ export type MedalCounts = {
   bronze: number;
   none: number;
 };
+export type { Operation } from '../constants/questions';
+
